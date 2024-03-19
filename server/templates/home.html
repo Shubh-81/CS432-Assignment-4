@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+ 
+{% block title %}
+Maintainence
+{% endblock %}
+ 
+{% block content %}
+<h1 class="text-center my-5">Users List</h1>
+<div class="container d-flex justify-content-center align-items-center">
+    <a class="btn btn-outline-info mb-3" href="{{ url_for('add_users') }}">Add Users</a>
+</div>
+<div class="container">
+    {% if message %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endif %}
+    <table class="table table-dark table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Middle Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        {% if not details %}
+        <div class="text-center">
+            <h3 class="my-5">No Records to Display!</h3>
+        </div>
+        {% else %}
+        <tbody>
+        {% for data in details %}
+        <tr>
+            <th scope="row">{{ data.user_id }}</th>
+            <td>{{ data.first_name }}</td>
+            <td>{{ data.middle_name }}</td>
+            <td>{{ data.last_name }}</td>
+            <td>{{ data.email_id }}</td>
+            <td>{{ data.mobile_number }}</td>
+            <td>
+                <!-- Buttons for actions -->
+                <a href="{{ url_for('update_user', user_id=data.user_id) }}" class="btn btn-primary btn-sm">Update</a>
+                <form method="post" action="{{ url_for('delete_user', user_id=data.user_id) }}"  style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+</div>
+{% endblock %}
