@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import text
 import yaml
  
 app = Flask(__name__)
 
-# Import the database configuration from the db.yaml file
+table_name = "user_table"
+
 with open('db.yaml') as file:
     config = yaml.load(file, Loader=yaml.FullLoader)
     host = config['mysql_host']
@@ -15,7 +17,7 @@ with open('db.yaml') as file:
     db.init_app(app)
 
 class Users(db.Model):
-    __tablename__ = "user_table"
+    __tablename__ = table_name
  
     user_id = db.Column(db.Integer, primary_key=True, unique=True)
     first_name = db.Column(db.String(500), nullable=False)
@@ -42,22 +44,15 @@ def add_users(message=None):
         last_name = request.form['last_name']
         email_id = request.form['email_id']
         mobile_number = request.form['mobile_number']
- 
-        add_detail = Users(
-            first_name=first_name,
-            middle_name=middle_name,
-            last_name=last_name,
-            email_id=email_id,
-            mobile_number=mobile_number
-        )
+        db.session.execute(text(f"INSERT INTO {table_name} (first_name, middle_name, last_name, email_id, mobile_number) VALUES ('{first_name}', '{middle_name}', '{last_name}', '{email_id}', '{mobile_number}')"))
         try:
-            db.session.add(add_detail)
             db.session.commit()
             db.session.close()
             message = "User added successfully"
             return render_template("users.html", message=message)
         except Exception as e:
             db.session.rollback()
+            print(e)
             message = "An error occurred while adding the user. Please check if the email id or mobile number is already in use."
             return render_template("users.html", message=message)
  
@@ -67,18 +62,21 @@ def add_users(message=None):
 def update_user(user_id, message=None):
     user = Users.query.get_or_404(user_id)
     if request.method == 'POST':
-        user.first_name = request.form['first_name']
-        user.middle_name = request.form['middle_name']
-        user.last_name = request.form['last_name']
-        user.email_id = request.form['email_id']
-        user.mobile_number = request.form['mobile_number']
+        first_name = request.form['first_name']
+        middle_name = request.form['middle_name']
+        last_name = request.form['last_name']
+        email_id = request.form['email_id']
+        mobile_number = request.form['mobile_number']
+        db.session.execute(text(f"UPDATE {table_name} SET first_name = '{first_name}', middle_name = '{middle_name}', last_name = '{last_name}', email_id = '{email_id}', mobile_number = '{mobile_number}' WHERE user_id = {user_id}"))
         try:
             db.session.commit()
             db.session.close()
             message = "User updated successfully"
+            user = Users.query.get_or_404(user_id)
             return render_template("update_user.html", user=user, message=message)
         except Exception as e:
             db.session.rollback() 
+            print(e)
             message = "An error occurred while updating the user. Please check if the email id or mobile number is already in use."
             return render_template("update_user.html", user=user, message=message)
     
@@ -86,9 +84,8 @@ def update_user(user_id, message=None):
 
 @app.route("/users/delete/<int:user_id>", methods=['POST'])
 def delete_user(user_id):
-    user = Users.query.get_or_404(user_id)
     if request.method == 'POST':
-        db.session.delete(user)
+        db.session.execute(text(f"DELETE FROM {table_name} WHERE user_id = {user_id}"))
         try:
             db.session.commit()
             db.session.close()
@@ -96,9 +93,26 @@ def delete_user(user_id):
             return render_template("home.html", details=Users.query.all(), message=message)
         except Exception as e:
             db.session.rollback()  
+            print(e)
             message = "An error occurred while deleting the entry. Please check if reference to this entry exists in other tables."
             return render_template("home.html", details=Users.query.all(), message=message)
+        
+
+@app.route('/users/rename', methods=['GET', 'POST'])
+def rename_table():
+    global table_name
+    if request.method == 'POST':
+        new_table_name = request.form['new_table_name']
+        try:
+            db.session.execute(text(f"ALTER TABLE {table_name} RENAME TO {new_table_name}"))
+            message = f"Table '{table_name}' renamed to '{new_table_name}' successfully"
+            table_name = new_table_name
+        except Exception as e:
+            message = f"An error occurred while renaming the table: {str(e)}"
+        return render_template("rename_user_table.html", message=message, table_name=table_name)
+    return render_template("rename_user_table.html", table_name=table_name)
 
 if __name__ == "__main__":
+    table_name = "user_table"
     create_db()
     app.run(debug=True)
