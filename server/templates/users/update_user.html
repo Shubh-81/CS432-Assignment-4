@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'users/base.html' %}
 
 {% block title %}
 Update User
@@ -12,8 +12,8 @@ Update User
         alert("{{ message }}");
     </script>
     {% endif %}
-    <a href="{{ url_for('home') }}" class="btn mb-3 btn-outline-info">Go to Home</a>
-    <form action="{{ url_for('update_user', user_id=user.user_id) }}" method="POST">
+    <a href="{{ url_for('users.home') }}" class="btn mb-3 btn-outline-info">Go to Home</a>
+    <form action="{{ url_for('users.update_user', user_id=user.user_id) }}" method="POST">
         <div class="mb-3">
             <label for="first_name" class="form-label">First Name</label>
             <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" value="{{ user.first_name }}" required>

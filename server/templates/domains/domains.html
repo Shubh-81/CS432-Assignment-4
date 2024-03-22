@@ -1,0 +1,32 @@
+{% extends 'domains/base.html' %}
+ 
+{% block title %}
+Add Domains
+{% endblock %}
+ 
+{% block content %}
+<h1 class="text-center my-5">Add Domain</h1>
+<div class="container">
+  {% if message %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endif %}
+  <a href="{{ url_for('domains.home') }}" class="btn mb-3 btn-outline-info">Go to Home</a>
+  <form action="/domains/add" method="POST">
+<div class="mb-3">
+  <label for="title" class="form-label">Domain</label>
+  <input type="text" class="form-control" name="domain" id="domain" placeholder="Domain" required>
+</div>
+<div class="mb-3">
+  <label for="title" class="form-label">Subdomain</label>
+  <input type="text" class="form-control" name="subdomain" id="subdomain" placeholder="Subdomain" required>
+</div>
+<div class="mb-3">
+  <label for="title" class="form-label">Subdomain - 2</label>
+  <input type="text" class="form-control" name="subdomain_2" id="subdomain_2" placeholder="subdomain - 2" required>
+</div>
+  <button type="submit" class="btn mt-3 btn-outline-success">Add Domain</button>
+  </form>
+  </div>
+{% endblock %}

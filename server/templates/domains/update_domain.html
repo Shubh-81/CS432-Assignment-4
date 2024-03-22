@@ -1,0 +1,32 @@
+{% extends 'domains/base.html' %}
+
+{% block title %}
+Update Domain
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center my-5">Update Domain</h1>
+<div class="container">
+    {% if message %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endif %}
+    <a href="{{ url_for('domains.home') }}" class="btn mb-3 btn-outline-info">Go to Home</a>
+    <form action="{{ url_for('domains.update_domain', domain_id=domain.domain_id) }}" method="POST">
+        <div class="mb-3">
+            <label for="first_name" class="form-label">Domain</label>
+            <input type="text" class="form-control" name="domain" id="domain" placeholder="Domain" value="{{ domain.domain }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="middle_name" class="form-label">Subdomain</label>
+            <input type="text" class="form-control" name="subdomain" id="subdomain" placeholder="Subdomain" value="{{ domain.subdomain }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="last_name" class="form-label">Subdomain - 2</label>
+            <input type="text" class="form-control" name="subdomain_2" id="subdomain_2" placeholder="Subdomain - 2" value="{{ domain.subdomain_2 }}" required>
+        </div>
+        <button type="submit" class="btn mt-3 btn-outline-success">Update Domain</button>
+    </form>
+</div>
+{% endblock %}

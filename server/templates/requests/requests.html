@@ -1,0 +1,57 @@
+{% extends 'requests/base.html' %}
+ 
+{% block title %}
+Add requests
+{% endblock %}
+ 
+{% block content %}
+<h1 class="text-center my-5">Add Request</h1>
+<div class="container">
+  {% if message %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endif %}
+  <a href="{{ url_for('requests.home') }}" class="btn mb-3 btn-outline-info">Go to Home</a>
+  <form action="/requests/add" method="POST">      
+    <div class="mb-3">
+      <label for="user_id" class="form-label">User ID</label>
+      <input type="number" class="form-control" name="user_id" id="user_id" placeholder="User ID" required>
+    </div>
+    <div class="mb-3">
+      <label for="domain_id" class="form-label">Domain ID</label>
+      <input type="number" class="form-control" name="domain_id" id="domain_id" placeholder="Domain ID" required>
+    </div>
+    <div class="mb-3">
+      <label for="location_id" class="form-label">Location ID</label>
+      <input type="number" class="form-control" name="location_id" id="location_id" placeholder="Location ID" required>
+    </div>
+    <div class="mb-3">
+      <label for="subject" class="form-label">Subject</label>
+      <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+    </div>
+    <div class="mb-3">
+      <label for="availability" class="form-label">Availability</label>
+      <input type="text" class="form-control" name="availability" id="availability" placeholder="Availability" required>
+    </div>
+    <div class="mb-3">
+      <label for="status" class="form-label">Status</label>
+      <input type="text" class="form-control" name="status" id="status" placeholder="Status" required>
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <input type="text" class="form-control" name="description" id="description" placeholder="Description">
+    </div>
+    <div class="mb-3">
+      <label for="admin_comments" class="form-label">Admin Comments</label>
+      <input type="text" class="form-control" name="admin_comments" id="admin_comments" placeholder="Admin Comments">
+    </div>
+    <div class="mb-3">
+      <label for="image" class="form-label">Image</label>
+      <input type="file" class="form-control" name="image" id="image" placeholder="Image">
+    </div>
+    
+  <button type="submit" class="btn mt-3 btn-outline-success">Add request</button>
+  </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'home/base.html' %}
+ 
+{% block title %}
+Maintainence
+{% endblock %}
+ 
+{% block content %}
+<h1 class="text-center my-5">Maintainence Database Management System</h1>
+<div class="container d-flex justify-content-center align-items-center">
+    <a class="btn btn-outline-info btn-lg mb-3" href="{{ url_for('users.home') }}">User Table</a>
+</div>
+<div class="container d-flex justify-content-center align-items-center">
+    <a class="btn btn-outline-info btn-lg mb-3" href="{{ url_for('workers.home') }}">Worker Table</a>
+</div>
+<div class="container d-flex justify-content-center align-items-center">
+    <a class="btn btn-outline-info btn-lg mb-3" href="{{ url_for('requests.home') }}">Request Table</a>
+</div>
+<div class="container d-flex justify-content-center align-items-center">
+    <a class="btn btn-outline-info btn-lg mb-3" href="{{ url_for('locations.home') }}">Location Table</a>
+</div>
+<div class="container d-flex justify-content-center align-items-center">
+    <a class="btn btn-outline-info btn-lg mb-3" href="{{ url_for('domains.home') }}">Domain Table</a>
+</div>
+{% endblock %}

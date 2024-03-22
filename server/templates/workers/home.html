@@ -1,0 +1,58 @@
+{% extends 'workers/base.html' %}
+ 
+{% block title %}
+Maintainence
+{% endblock %}
+ 
+{% block content %}
+<h1 class="text-center my-5">Workers List</h1>
+<div class="container d-flex justify-content-center align-items-center">
+    <a class="btn btn-outline-info mb-3" href="{{ url_for('workers.add_workers') }}">Add Workers</a>
+</div>
+<div class="container">
+    {% if message %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endif %}
+    <table class="table table-dark table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Worker ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Middle Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Domain ID</th>
+            <th scope="col">Availability</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        {% if not details %}
+        <div class="text-center">
+            <h3 class="my-5">No Records to Display!</h3>
+        </div>
+        {% else %}
+        <tbody>
+        {% for data in details %}
+        <tr>
+            <th scope="row">{{ data.worker_id }}</th>
+            <td>{{ data.first_name }}</td>
+            <td>{{ data.middle_name }}</td>
+            <td>{{ data.last_name }}</td>
+            <td>{{ data.domain_id }}</td>
+            <td>{{ data.availability }}</td>
+            <td>{{ data.mobile_number }}</td>
+            <td>
+                <a href="{{ url_for('workers.update_worker', worker_id=data.worker_id) }}" class="btn btn-primary btn-sm">Update</a>
+                <form method="post" action="{{ url_for('workers.delete_worker', worker_id=data.worker_id) }}"  style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+</div>
+{% endblock %}

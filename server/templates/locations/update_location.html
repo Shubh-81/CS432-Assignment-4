@@ -1,0 +1,41 @@
+{% extends 'locations/base.html' %}
+
+{% block title %}
+Update Location
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center my-5">Update Location</h1>
+<div class="container">
+    {% if message %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endif %}
+    <a href="{{ url_for('locations.home') }}" class="btn mb-3 btn-outline-info">Go to Home</a>
+    <form action="{{ url_for('locations.update_location', location_id=location.location_id) }}" method="POST">
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <select class="form-select" name="location" id="location" required>
+                <option value="">Select Location</option>
+                {% for loc in locations %}
+                    <option value="{{ loc }}" {% if loc == location.location %} selected {% endif %}>{{ loc }}</option>
+                {% endfor %}
+            </select>
+        </div>        
+        <div class="mb-3">
+            <label for="building_name" class="form-label">Building Name</label>
+            <input type="text" class="form-control" name="building_name" id="building_name" placeholder="Building Name" value="{{ location.building_name }}">
+        </div>
+        <div class="mb-3">
+            <label for="room_no" class="form-label">Room Number</label>
+            <input type="number" class="form-control" name="room_no" id="room_no" placeholder="Room Number" value="{{ location.room_no }}">
+        </div>        
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" name="description" id="description" placeholder="Description" value="{{ location.description }}" required>
+        </div>
+        <button type="submit" class="btn mt-3 btn-outline-success">Update Location</button>
+    </form>
+</div>
+{% endblock %}

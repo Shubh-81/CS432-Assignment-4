@@ -1,0 +1,53 @@
+{% extends 'domains/base.html' %}
+ 
+{% block title %}
+Maintainence
+{% endblock %}
+ 
+{% block content %}
+<h1 class="text-center my-5">Domain Table</h1>
+<div class="container d-flex justify-content-center align-items-center">
+    <a class="btn btn-outline-info mb-3" href="{{ url_for('domains.add_domains') }}">Add Domains</a>
+    
+</div>
+<div class="container">
+    {% if message %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endif %}
+    <table class="table table-dark table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Domain ID</th>
+            <th scope="col">Domain</th>
+            <th scope="col">Subdomain</th>
+            <th scope="col">Subdomain - 2</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        {% if not details %}
+        <div class="text-center">
+            <h3 class="my-5">No Records to Display!</h3>
+        </div>
+        {% else %}
+        <tbody>
+        {% for data in details %}
+        <tr>
+            <th scope="row">{{ data.domain_id }}</th>
+            <td>{{ data.domain }}</td>
+            <td>{{ data.subdomain }}</td>
+            <td>{{ data.subdomain_2 }}</td>
+            <td>
+                <a href="{{ url_for('domains.update_domain', domain_id=data.domain_id) }}" class="btn btn-primary btn-sm">Update</a>
+                <form method="post" action="{{ url_for('domains.delete_domain', domain_id=data.domain_id) }}"  style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+</div>
+{% endblock %}

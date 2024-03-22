@@ -1,0 +1,56 @@
+{% extends 'requests/base.html' %}
+
+{% block title %}
+Update Request
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center my-5">Update Request</h1>
+<div class="container">
+    {% if message %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endif %}
+    <a href="{{ url_for('requests.home') }}" class="btn mb-3 btn-outline-info">Go to Home</a>
+    <form action="{{ url_for('requests.update_request', request_id=requests.request_id) }}" method="POST">    
+        <div class="mb-3">
+            <label for="user_id" class="form-label">User ID</label>
+            <input type="number" class="form-control" name="user_id" id="user_id" placeholder="User ID" value="{{ requests.user_id }}" required>
+        </div>    
+        <div class="mb-3">
+            <label for="domain_id" class="form-label">Domain ID</label>
+            <input type="number" class="form-control" name="domain_id" id="domain_id" placeholder="Domain ID" value="{{ requests.domain_id }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="location_id" class="form-label">Location ID</label>
+            <input type="number" class="form-control" name="location_id" id="location_id" placeholder="Location ID" value="{{ requests.location_id }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ requests.subject }}" required>
+        </div>        
+        <div class="mb-3">
+            <label for="availability" class="form-label">Availability</label>
+            <input type="text" class="form-control" name="availability" id="availability" placeholder="Availability" value="{{ requests.availability }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <input type="text" class="form-control" name="status" id="status" placeholder="Status" value="{{ requests.status }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" name="description" id="description" placeholder="Description" value="{{ requests.description }}">
+        </div>
+        <div class="mb-3">
+            <label for="admin_comments" class="form-label">Admin Comments</label>
+            <input type="text" class="form-control" name="admin_comments" id="admin_comments" placeholder="Admin Comments" value="{{ requests.admin_comments }}">
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input type="file" class="form-control" name="image" id="image" placeholder="Image" value="{{ requests.image }}">
+        </div>
+        <button type="submit" class="btn mt-3 btn-outline-success">Update Request</button>
+    </form>
+</div>
+{% endblock %}
