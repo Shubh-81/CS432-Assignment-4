@@ -15,7 +15,7 @@ git clone https://github.com/Shubh-81/CS432-Assignment-3.git
 2. Navigate to the project directory:
 
 ```
-cd iitgn-maintenance
+cd CS432-Assignment-3
 ```
 
 3. Install the required dependencies by running:
