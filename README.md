@@ -24,10 +24,45 @@ cd CS432-Assignment-3
 pip install -r requirements.txt
 ```
 
-4. Start the Flask development server:
+## Database Setup
+
+This application uses a MySQL database. To set up the database locally, follow these steps:
+
+1. Install MySQL Server if you haven't already.
+
+2. Create a new database for the application:
+
+```bash
+mysql -u root -p
+```
+
+Enter your root password when prompted.
+
+```sql
+CREATE DATABASE maintenance;
+EXIT;
+```
+
+3. Import the `dump.sql` file into the newly created database. This file contains the database schema and initial data.
+
+```bash
+mysql -u root -p maintenance < dump.sql
+```
+
+Enter your root password when prompted. This command will import the contents of `dump.sql` into the `iitgn_maintenance` database.
+
+4. Update the `config.py` file with your local MySQL connection details:
+
+```python
+SQLALCHEMY_DATABASE_URI = 'mysql://username:password@localhost/maintenance'
+```
+
+Replace `username` and `password` with your actual MySQL credentials.
+
+5. Start the Flask development server:
 
 ```
-python server/app.py
+python app.py
 ```
 
 The application will be running locally on `http://localhost:5000`.
@@ -42,10 +77,6 @@ The application consists of the following routes:
 - `/domains` - Displays the domain table.
 - `/requests` - Displays the request table.
 - `/locations` - Displays the location table.
-
-## Database
-
-The application uses a database to store and manage the data. The database is initialized and created using the `db.create_all()` function in the `app.py` file.
 
 ## Dependencies
 
