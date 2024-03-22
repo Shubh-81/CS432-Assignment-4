@@ -9,7 +9,7 @@ To run the application locally, follow these steps:
 1. Clone the repository:
 
 ```
-git clone https://github.com/your-repo/iitgn-maintenance.git
+git clone https://github.com/Shubh-81/CS432-Assignment-3.git
 ```
 
 2. Navigate to the project directory:
