@@ -1,5 +1,6 @@
 from sqlalchemy.sql import text
 from flask import Blueprint, render_template, request
+from flask_login import login_required
 from database import db
 
 domains_bp = Blueprint('domains', __name__)
@@ -16,11 +17,13 @@ class Domains(db.Model):
 
 
 @domains_bp.route("/domains", methods=['GET', 'POST'])
+@login_required
 def home(message=None):
     details = Domains.query.all()
     return render_template("domains/home.html", details=details, message=message)
  
 @domains_bp.route("/domains/add", methods=['GET', 'POST'])
+@login_required
 def add_domains(message=None):
     if request.method == 'POST':
         domain = request.form['domain']
@@ -41,6 +44,7 @@ def add_domains(message=None):
     return render_template("domains/domains.html", message=message)
 
 @domains_bp.route("/domains/update/<int:domain_id>", methods=['GET', 'POST'])
+@login_required
 def update_domain(domain_id, message=None):
     domain = Domains.query.get_or_404(domain_id)
     if request.method == 'POST':
@@ -63,6 +67,7 @@ def update_domain(domain_id, message=None):
     return render_template("domains/update_domain.html", domain=domain, message=message)
 
 @domains_bp.route("/domains/delete/<int:domain_id>", methods=['POST'])
+@login_required
 def delete_domain(domain_id):
     if request.method == 'POST':
         try:

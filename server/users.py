@@ -1,5 +1,6 @@
 from sqlalchemy.sql import text
 from flask import Blueprint, render_template, request
+from flask_login import login_required
 from database import db
 
 users_bp = Blueprint('users', __name__)
@@ -18,11 +19,13 @@ class Users(db.Model):
 
 
 @users_bp.route("/users", methods=['GET', 'POST'])
+@login_required
 def home(message=None):
     details = Users.query.all()
     return render_template("users/home.html", details=details, message=message)
  
 @users_bp.route("/users/add", methods=['GET', 'POST'])
+@login_required
 def add_users(message=None):
     if request.method == 'POST':
         first_name = request.form['first_name']
@@ -45,6 +48,7 @@ def add_users(message=None):
     return render_template("users/users.html", message=message)
 
 @users_bp.route("/users/update/<int:user_id>", methods=['GET', 'POST'])
+@login_required
 def update_user(user_id, message=None):
     user = Users.query.get_or_404(user_id)
     if request.method == 'POST':
@@ -69,6 +73,7 @@ def update_user(user_id, message=None):
     return render_template("users/update_user.html", user=user, message=message)
 
 @users_bp.route("/users/delete/<int:user_id>", methods=['POST'])
+@login_required
 def delete_user(user_id):
     if request.method == 'POST':
         try:

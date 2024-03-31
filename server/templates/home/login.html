@@ -1,0 +1,33 @@
+{% extends 'home/base.html' %}
+ 
+{% block title %}
+Login Page
+{% endblock %}
+ 
+{% block content %}
+<h1 class="text-center my-5">Login Page</h1>
+<div class="container">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+      <div class="notification is-danger">
+          {{ messages[0] }}
+      </div>
+  {% endif %}
+  {% endwith %}
+  <form action="" method="POST">  
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="text" class="form-control" name="email" id="email" placeholder="Email">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+    </div>          
+    <div>
+      <button type="submit" class="btn mt-3 btn-outline-success">Login</button>
+      <a class="btn btn-outline-info mt-3" href="{{ url_for('auth.signup') }}">SignUp Instead</a>
+    </div>
+  
+  </form>
+  </div>
+{% endblock %}

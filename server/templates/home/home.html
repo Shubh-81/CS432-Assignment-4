@@ -21,4 +21,9 @@ Maintainence
 <div class="container d-flex justify-content-center align-items-center">
     <a class="btn btn-outline-info btn-lg mb-3" href="{{ url_for('domains.home') }}">Domain Table</a>
 </div>
+<div class="container d-flex justify-content-center align-items-center">
+    <form method="post" action="{{ url_for('auth.logout') }}"  style="display:inline;">
+        <button type="submit" class="btn btn-danger btn-sm">Log Out</button>
+    </form>
+</div>
 {% endblock %}
