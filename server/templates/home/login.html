@@ -17,11 +17,12 @@ Login Page
   <form action="" method="POST">  
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
-      <input type="text" class="form-control" name="email" id="email" placeholder="Email">
+      <input type="email" class="form-control" name="email" id="email" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+      <div class="invalid-feedback">Please enter a valid email address.</div>
     </div>
     <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
     </div>          
     <div>
       <button type="submit" class="btn mt-3 btn-outline-success">Login</button>
