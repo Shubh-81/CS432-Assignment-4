@@ -97,10 +97,10 @@ def delete_request(request_id):
             db.session.commit()
             db.session.close()
             message = "Request deleted successfully"
-            return render_template("requests/home.html", details=requests.query.all(), message=message)
+            return render_template("requests/home.html", details=Requests.query.all(), message=message)
         except Exception as e:
             db.session.rollback()  
             print(e)
             message = "An error occurred while deleting the entry. Please check if reference to this entry exists in other tables."
-            return render_template("requests/home.html", details=requests.query.all(), message=message)
+            return render_template("requests/home.html", details=Requests.query.all(), message=message)
         
