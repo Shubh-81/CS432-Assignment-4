@@ -12,7 +12,7 @@ Update Location
         alert("{{ message }}");
     </script>
     {% endif %}
-    <a href="{{ url_for('locations.home') }}" class="btn mb-3 btn-outline-info">Go to Home</a>
+    <a href="{{ url_for('locations.home') }}" class="btn mb-3 btn-outline-info">Go Back</a>
     <form action="{{ url_for('locations.update_location', location_id=location.location_id) }}" method="POST">
         <div class="mb-3">
             <label for="location" class="form-label">Location</label>

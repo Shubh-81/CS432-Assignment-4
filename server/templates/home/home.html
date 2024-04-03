@@ -1,29 +1,44 @@
 {% extends 'home/base.html' %}
- 
+
 {% block title %}
 Maintainence
 {% endblock %}
- 
+
 {% block content %}
-<h1 class="text-center my-5">Maintainence Database Management System</h1>
-<div class="container d-flex justify-content-center align-items-center">
-    <a class="btn btn-outline-info btn-lg mb-3" href="{{ url_for('users.home') }}">User Table</a>
-</div>
-<div class="container d-flex justify-content-center align-items-center">
-    <a class="btn btn-outline-info btn-lg mb-3" href="{{ url_for('workers.home') }}">Worker Table</a>
-</div>
-<div class="container d-flex justify-content-center align-items-center">
-    <a class="btn btn-outline-info btn-lg mb-3" href="{{ url_for('requests.home') }}">Request Table</a>
-</div>
-<div class="container d-flex justify-content-center align-items-center">
-    <a class="btn btn-outline-info btn-lg mb-3" href="{{ url_for('locations.home') }}">Location Table</a>
-</div>
-<div class="container d-flex justify-content-center align-items-center">
-    <a class="btn btn-outline-info btn-lg mb-3" href="{{ url_for('domains.home') }}">Domain Table</a>
-</div>
-<div class="container d-flex justify-content-center align-items-center">
-    <form method="post" action="{{ url_for('auth.logout') }}"  style="display:inline;">
-        <button type="submit" class="btn btn-danger btn-sm">Log Out</button>
-    </form>
-</div>
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-3 mb-2 mb-md-0">
+        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a2/IIT_Gandhinagar_Logo.svg/1200px-IIT_Gandhinagar_Logo.svg.png" alt="Your Image Description" style="width:60px; height:60px; margin-right: 10px;">
+          <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/" class="nav-link px-2 link-secondary" style="color: grey; transition: color 0.3s ease-in-out;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='grey'">Home</a></li>
+        <li><a href="/domains" class="nav-link px-2" style="color: black; transition: color 0.3s ease-in-out;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='black'">Domain</a></li>
+        <li><a href="/users" class="nav-link px-2" style="color: black; transition: color 0.3s ease-in-out;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='black'">User</a></li>
+        <li><a href="/requests" class="nav-link px-2" style="color: black; transition: color 0.3s ease-in-out;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='black'">Request</a></li>
+        <li><a href="/locations" class="nav-link px-2" style="color: black; transition: color 0.3s ease-in-out;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='black'">Location</a></li>
+        <li><a href="/workers" class="nav-link px-2" style="color: black; transition: color 0.3s ease-in-out;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='black'">Worker</a></li>
+
+      </ul>
+
+      <div class="col-md-3 text-end">
+        <button type="button" class="btn" style="background-color: black; color: white;"><a href="/logout" style="text-decoration: none; color: white !important;">Logout</a></button>
+      </div>
+           
+    </header>
+  </div>
+
+  <div class="container" style="max-width: 600px;
+                                margin: 0 auto;
+                                padding: 20px;
+                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                                text-align: center;
+                                border-radius: 10px;">
+    <h1 style="color: #007bff; margin-bottom:20px"> Welcome! </h1>
+    <h3 style="color: #007bff; margin-bottom:20px"> IITGN Maintainence Portal </h2>
+    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a2/IIT_Gandhinagar_Logo.svg/1200px-IIT_Gandhinagar_Logo.svg.png" alt="Your Image Description" style="width:400px; height:400px; margin-right: 10px;"> 
+  </div>
 {% endblock %}

@@ -12,7 +12,7 @@ Update Domain
         alert("{{ message }}");
     </script>
     {% endif %}
-    <a href="{{ url_for('domains.home') }}" class="btn mb-3 btn-outline-info">Go to Home</a>
+    <a href="{{ url_for('domains.home') }}" class="btn mb-3 btn-outline-info">Go Back</a>
     <form action="{{ url_for('domains.update_domain', domain_id=domain.domain_id) }}" method="POST">
         <div class="mb-3">
             <label for="first_name" class="form-label">Domain</label>

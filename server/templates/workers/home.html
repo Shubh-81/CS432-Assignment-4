@@ -5,10 +5,34 @@ Maintainence
 {% endblock %}
  
 {% block content %}
+<div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-3 mb-2 mb-md-0">
+        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a2/IIT_Gandhinagar_Logo.svg/1200px-IIT_Gandhinagar_Logo.svg.png" alt="Your Image Description" style="width:60px; height:60px; margin-right: 10px;">
+          <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/" class="nav-link px-2 link-secondary" style="color: black; transition: color 0.3s ease-in-out;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='black'">Home</a></li>
+        <li><a href="/domains" class="nav-link px-2" style="color: black; transition: color 0.3s ease-in-out;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='black'">Domain</a></li>
+        <li><a href="/users" class="nav-link px-2" style="color: black; transition: color 0.3s ease-in-out;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='black'">User</a></li>
+        <li><a href="/requests" class="nav-link px-2" style="color: black; transition: color 0.3s ease-in-out;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='black'">Request</a></li>
+        <li><a href="/locations" class="nav-link px-2" style="color: black; transition: color 0.3s ease-in-out;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='black'">Location</a></li>
+        <li><a href="/workers" class="nav-link px-2" style="color: grey; transition: color 0.3s ease-in-out;" onmouseover="this.style.color='#007bff'" onmouseout="this.style.color='grey'">Worker</a></li>
+      </ul>
+
+      <div class="col-md-3 text-end">
+        <button type="button" class="btn" style="background-color: black; color: white;"><a href="/logout" style="text-decoration: none; color: white !important;">Logout</a></button>
+      </div>
+           
+    </header>
+  </div>
+
 <h1 class="text-center my-5">Workers List</h1>
 <div class="container d-flex justify-content-center align-items-center">
     <a class="btn btn-outline-info mb-3" href="{{ url_for('workers.add_workers') }}">Add Workers</a>
-    <a class="btn btn-outline-info mb-3" href="{{ url_for('home') }}">Go to Home</a>
 </div>
 <div class="container">
     {% if message %}
