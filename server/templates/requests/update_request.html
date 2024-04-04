@@ -13,7 +13,7 @@ Update Request
     </script>
     {% endif %}
     <a href="{{ url_for('requests.home') }}" class="btn mb-3 btn-outline-info">Go Back</a>
-    <form action="{{ url_for('requests.update_request', request_id=requests.request_id) }}" method="POST">    
+    <form action="{{ url_for('requests.update_request', request_id=requests.request_id) }}" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="user_id" class="form-label">User ID</label>
             <input type="number" class="form-control" name="user_id" id="user_id" placeholder="User ID" value="{{ requests.user_id }}" required>
@@ -46,6 +46,17 @@ Update Request
             <label for="admin_comments" class="form-label">Admin Comments</label>
             <input type="text" class="form-control" name="admin_comments" id="admin_comments" placeholder="Admin Comments" value="{{ requests.admin_comments }}">
         </div>
+
+        <!-- Displaying current image, if exists -->
+        {% if requests.image %}
+        <div class="mb-3">
+            <label>Current Image:</label>
+            <div>
+                <img src="{{ url_for('requests.serve_image', request_id=requests.request_id) }}" alt="Current Image" style="max-width: 100px; max-height: 100px;">
+            </div>
+        </div>
+
+        {% endif %}
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>
             <input type="file" class="form-control" name="image" id="image" placeholder="Image" value="{{ requests.image }}">
