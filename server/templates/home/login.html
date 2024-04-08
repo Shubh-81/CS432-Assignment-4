@@ -30,5 +30,10 @@ Login Page
     </div>
   
   </form>
-  </div>
+
+  <!-- Add Google Login Button -->
+  <a href="{{ url_for('auth.login_google') }}" class="btn btn-outline-danger mt-3">
+    <i class="fab fa-google"></i> Login with Google
+  </a>
+</div>
 {% endblock %}

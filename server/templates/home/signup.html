@@ -33,6 +33,9 @@ Sign Up Page
     <button type="submit" class="btn mt-3 btn-outline-success">Sign Up</button>
     <a class="btn btn-outline-info mt-3" href="{{ url_for('auth.login') }}">Login Instead</a>
   </form>
+  <a href="{{ url_for('auth.login_google') }}" class="btn btn-outline-danger mt-3">
+    <i class="fab fa-google"></i> Login with Google
+  </a>
 </div>
 
 {% endblock %}
