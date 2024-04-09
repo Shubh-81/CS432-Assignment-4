@@ -5,7 +5,7 @@ from workers import workers_bp
 from domain import domains_bp
 from location import locations_bp
 from request import requests_bp
-from auth import auth, User
+from auth import auth, Users
 from database import db
 from flask_login import login_user, logout_user, login_required
 
@@ -33,7 +33,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return Users(user_id=user_id)
 
 if __name__ == "__main__":
     with app.app_context():

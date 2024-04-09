@@ -2,20 +2,11 @@ from sqlalchemy.sql import text
 from flask import Blueprint, render_template, request
 from flask_login import login_required
 from database import db
+from auth import Users
 
 users_bp = Blueprint('users', __name__)
 
 table_name = 'user_table'
-
-class Users(db.Model):
-    __tablename__ = "user_table"
- 
-    user_id = db.Column(db.Integer, primary_key=True, unique=True)
-    first_name = db.Column(db.String(500), nullable=False)
-    middle_name = db.Column(db.String(500), nullable=True)
-    last_name = db.Column(db.String(500), nullable=True)
-    email_id = db.Column(db.String(500), nullable=False, unique=True)
-    mobile_number = db.Column(db.String(500), nullable=False, unique=True)
 
 
 @users_bp.route("/users", methods=['GET', 'POST'])
@@ -29,12 +20,11 @@ def home(message=None):
 def add_users(message=None):
     if request.method == 'POST':
         first_name = request.form['first_name']
-        middle_name = request.form['middle_name']
         last_name = request.form['last_name']
         email_id = request.form['email_id']
         mobile_number = request.form['mobile_number']
         try:
-            db.session.execute(text(f"INSERT INTO {table_name} (first_name, middle_name, last_name, email_id, mobile_number) VALUES ('{first_name}', '{middle_name}', '{last_name}', '{email_id}', '{mobile_number}')"))
+            db.session.execute(text(f"INSERT INTO {table_name} (first_name, last_name, email_id, mobile_number) VALUES ('{first_name}', '{last_name}', '{email_id}', '{mobile_number}')"))
             db.session.commit()
             db.session.close()
             message = "User added successfully"
@@ -53,12 +43,11 @@ def update_user(user_id, message=None):
     user = Users.query.get_or_404(user_id)
     if request.method == 'POST':
         first_name = request.form['first_name']
-        middle_name = request.form['middle_name']
         last_name = request.form['last_name']
         email_id = request.form['email_id']
         mobile_number = request.form['mobile_number']
         try:
-            db.session.execute(text(f"UPDATE {table_name} SET first_name = '{first_name}', middle_name = '{middle_name}', last_name = '{last_name}', email_id = '{email_id}', mobile_number = '{mobile_number}' WHERE user_id = {user_id}"))
+            db.session.execute(text(f"UPDATE {table_name} SET first_name = '{first_name}', last_name = '{last_name}', email_id = '{email_id}', mobile_number = '{mobile_number}' WHERE user_id = {user_id}"))
             db.session.commit()
             db.session.close()
             message = "User updated successfully"

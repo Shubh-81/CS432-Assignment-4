@@ -12,9 +12,9 @@ class Locations(db.Model):
  
     location_id = db.Column(db.Integer, primary_key=True, unique=True)
     location = db.Column(db.String(500), nullable=False)
-    building_name = db.Column(db.String(500), nullable=False)
-    room_no = db.Column(db.String(500), nullable=True)
-    description = db.Column(db.String(500), nullable=True)
+    building_name = db.Column(db.String(100), nullable=False)
+    room_no = db.Column(db.Integer, nullable=True)
+    description = db.Column(db.String(200), nullable=True)
 
 
 @locations_bp.route("/locations", methods=['GET', 'POST'])

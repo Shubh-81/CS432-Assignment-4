@@ -11,9 +11,9 @@ class Domains(db.Model):
     __tablename__ = "domain_table"
  
     domain_id = db.Column(db.Integer, primary_key=True, unique=True)
-    domain = db.Column(db.String(500), nullable=False)
-    subdomain = db.Column(db.String(500), nullable=True)
-    subdomain_2 = db.Column(db.String(500), nullable=True)
+    domain = db.Column(db.String(20), nullable=False)
+    subdomain = db.Column(db.String(40), nullable=True)
+    subdomain_2 = db.Column(db.String(40), nullable=True)
 
 
 @domains_bp.route("/domains", methods=['GET', 'POST'])

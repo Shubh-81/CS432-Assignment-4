@@ -31,12 +31,17 @@ Add requests
       <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
     </div>
     <div class="mb-3">
+      <label for="status" class="form-label">Status</label>
+      <select class="form-select" name="status" id="status" required>
+          <option value="">Select Status</option>
+              <option value="Pending">Pending</option>
+              <option value="Ongoing">Ongoing</option>
+              <option value="Completed">Completed</option>
+      </select>
+   </div>  
+    <div class="mb-3">
       <label for="availability" class="form-label">Availability</label>
       <input type="text" class="form-control" name="availability" id="availability" placeholder="Availability" required>
-    </div>
-    <div class="mb-3">
-      <label for="status" class="form-label">Status</label>
-      <input type="text" class="form-control" name="status" id="status" placeholder="Status" required>
     </div>
     <div class="mb-3">
       <label for="description" class="form-label">Description</label>

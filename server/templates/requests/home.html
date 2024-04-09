@@ -31,8 +31,30 @@ Maintainence
 </div>
 
 <h1 class="text-center my-5">Request Table</h1>
-<div class="container d-flex justify-content-center align-items-center">
-    <a class="btn btn-outline-info mb-3" href="{{ url_for('requests.add_requests') }}">Add Requests</a>
+<div class="container d-flex justify-content-center align-items-center mb-3">
+    <a class="btn btn-outline-info me-3" href="{{ url_for('requests.add_requests') }}">Add Requests</a>
+    <form class="d-flex" method="GET" action="{{ url_for('requests.home') }}">
+        <select class="form-select me-3" name="status">
+            <option value="" {% if not status_filter %}selected{% endif %}>All</option>
+            <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+            <option value="ongoing" {% if status_filter == 'ongoing' %}selected{% endif %}>Ongoing</option>
+            <option value="completed" {% if status_filter == 'completed' %}selected{% endif %}>Completed</option>
+        </select>        
+        <button class="btn btn-primary" type="submit">Filter</button>
+    </form>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p><strong>Pending Requests (Last 10 Days): </strong>{{ pending_count }}</p>
+        </div>
+        <div class="col">
+            <p><strong>Ongoing Requests (Last 10 Days): </strong>{{ ongoing_count }}</p>
+        </div>
+        <div class="col">
+            <p><strong>Completed Requests (Last 10 Days): </strong>{{ completed_count }}</p>
+        </div>
+    </div>
 </div>
 <div class="container">
     {% if message %}
@@ -53,6 +75,7 @@ Maintainence
             <th scope="col">Description</th>
             <th scope="col">Admin Comments</th>
             <th scope="col">Image</th>
+            <th scope="col">Create At</th>
             <th scope="col">Action</th>
         </tr>
         </thead>
@@ -82,6 +105,7 @@ Maintainence
                     No image
                 {% endif %}
             </td>
+            <td>{{ data.created_at }}</td>
             <td>
                 <a href="{{ url_for('requests.update_request', request_id=data.request_id) }}" class="btn btn-primary btn-sm">Update</a>
                 <form method="post" action="{{ url_for('requests.delete_request', request_id=data.request_id) }}"  style="display:inline;">

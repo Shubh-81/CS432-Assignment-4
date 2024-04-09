@@ -14,7 +14,7 @@ Sign Up Page
         </div>
     {% endif %}
     {% endwith %}
-  <form method="POST" action="{{url_for('auth.signup_post')}}">  
+  <form action="" method="POST" action="{{url_for('auth.signup')}}">  
     <div class="mb-3">
         <label for="first_name" class="form-label">First Name</label>
         <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" required maxlength="20">
@@ -25,7 +25,7 @@ Sign Up Page
     </div>
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="{{email_id}}" readonly>
+        <input type="email" class="form-control" name="email" id="email" placeholder="Email" value={{email_id}} readonly>
     </div>   
     <div class="mb-3">
         <label for="mobile_number" class="form-label">Mobile Number</label>

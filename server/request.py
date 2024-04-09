@@ -5,7 +5,11 @@ from database import db
 import imghdr
 import io
 from flask import send_file
+from datetime import datetime, timedelta
+from sqlalchemy import func
+from sqlalchemy.orm import relationship
 from werkzeug.utils import secure_filename
+from sqlalchemy.sql import text
 
 UPLOAD_FOLDER = 'uploads'  
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'} 
@@ -21,19 +25,49 @@ class Requests(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
     domain_id = db.Column(db.Integer, nullable=False)
     location_id = db.Column(db.Integer, nullable=False)
-    subject = db.Column(db.String(500), nullable=False)
-    availability = db.Column(db.String(500), nullable=False)
-    status = db.Column(db.String(500), nullable=False)
-    description = db.Column(db.String(500), nullable=True)
-    admin_comments = db.Column(db.String(500), nullable=True)
+    subject = db.Column(db.String(100), nullable=False)
+    availability = db.Column(db.String(100), nullable=False)
+    status = db.Column(db.String(20), nullable=False)
+    description = db.Column(db.String(200), nullable=True)
+    admin_comments = db.Column(db.String(200), nullable=True)
     image = db.Column(db.LargeBinary, nullable=True)
-
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
 
 @requests_bp.route("/requests", methods=['GET', 'POST'])
 @login_required
 def home(message=None):
-    details = Requests.query.all()
-    return render_template("requests/home.html", details=details, message=message)
+    status_filter = request.args.get('status')
+    
+
+    query = text("""
+        SELECT r.request_id, r.user_id, r.domain_id, r.location_id, r.subject, 
+            r.availability, r.status, r.description, r.admin_comments, 
+            r.image, r.created_at,
+            u.First_Name, u.Last_Name, u.Email_Id, u.mobile_number
+        FROM Request_Table r
+        JOIN User_Table u ON r.user_id = u.User_Id
+    """)
+
+    all_requests = db.session.execute(query)
+
+    if status_filter:
+        if status_filter == 'pending':
+            filtered_requests = Requests.query.filter_by(status='Pending').all()
+        elif status_filter == 'ongoing':
+            filtered_requests = Requests.query.filter_by(status='Ongoing').all()
+        elif status_filter == 'completed':
+            filtered_requests = Requests.query.filter_by(status='Completed').all()
+        else:
+            filtered_requests = all_requests
+    else:
+        filtered_requests = all_requests
+
+    today = datetime.utcnow().date()
+    ten_days_ago = today - timedelta(days=10)
+    pending_count = db.session.query(func.count(Requests.request_id)).filter(Requests.status == 'Pending', Requests.created_at >= ten_days_ago).scalar()
+    ongoing_count = db.session.query(func.count(Requests.request_id)).filter(Requests.status == 'Ongoing', Requests.created_at >= ten_days_ago).scalar()
+    completed_count = db.session.query(func.count(Requests.request_id)).filter(Requests.status == 'Completed', Requests.created_at >= ten_days_ago).scalar()
+    return render_template("requests/home.html", details=filtered_requests, message=message, pending_count=pending_count, ongoing_count=ongoing_count, completed_count=completed_count, status_filter=status_filter)
 
 
 def allowed_file(filename):
@@ -82,8 +116,13 @@ def update_request(request_id, message=None):
         status = request.form['status']
         description = request.form['description']
         admin_comments = request.form['admin_comments']
+        image = request.files['image']
+        if image and allowed_file(image.filename):
+            image_data = image.read()
+        else:
+            image_data = None
         try:
-            db.session.execute(text(f"UPDATE {table_name} SET user_id = '{user_id}', domain_id = '{domain_id}', location_id = '{location_id}', subject = '{subject}', availability = '{availability}', status = '{status}', description = '{description}', admin_comments = '{admin_comments}' WHERE request_id = {request_id}"))
+            Requests.query.filter_by(request_id=request_id).update(dict(user_id=user_id, domain_id=domain_id, location_id=location_id, subject=subject, availability=availability, status=status, description=description, admin_comments=admin_comments, image=image_data))
             db.session.commit()
             db.session.close()
             message = "Request updated successfully"

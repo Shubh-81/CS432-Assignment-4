@@ -1,12 +1,14 @@
 {% extends 'home/base.html' %}
- 
+
 {% block title %}
 Login Page
 {% endblock %}
- 
+
 {% block content %}
-<h1 class="text-center my-5">Login Page</h1>
-<div class="container">
+<div class="container text-center"> <!-- Center content -->
+  <h1 class="my-5">IIT Gandhinagar Maintenance Portal</h1> <!-- Title -->
+  <h2 class="mb-4">Sign in to your account</h2> <!-- Subtitle -->
+  
   {% with messages = get_flashed_messages() %}
   {% if messages %}
       <div class="notification is-danger">
@@ -14,25 +16,9 @@ Login Page
       </div>
   {% endif %}
   {% endwith %}
-  <form action="" method="POST">  
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input type="email" class="form-control" name="email" id="email" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-      <div class="invalid-feedback">Please enter a valid email address.</div>
-    </div>
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
-    </div>          
-    <div>
-      <button type="submit" class="btn mt-3 btn-outline-success">Login</button>
-      <a class="btn btn-outline-info mt-3" href="{{ url_for('auth.signup') }}">SignUp Instead</a>
-    </div>
   
-  </form>
-
   <!-- Add Google Login Button -->
-  <a href="{{ url_for('auth.login_google') }}" class="btn btn-outline-danger mt-3">
+  <a href="{{ url_for('auth.login_google') }}" class="btn btn-danger btn-lg mt-5"> <!-- Larger button -->
     <i class="fab fa-google"></i> Login with Google
   </a>
 </div>

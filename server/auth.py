@@ -23,11 +23,19 @@ google = oauth.remote_app(
     authorize_url='https://accounts.google.com/o/oauth2/auth',
 )
 
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True) 
-    email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(1000))
-    name = db.Column(db.String(1000))
+class Users(db.Model, UserMixin):
+    __tablename__ = "user_table"
+ 
+    user_id = db.Column(db.Integer, primary_key=True, unique=True)
+    first_name = db.Column(db.String(20), nullable=False)
+    last_name = db.Column(db.String(20), nullable=True)
+    email_id = db.Column(db.String(255), nullable=False, unique=True)
+    mobile_number = db.Column(db.String(10), nullable=False, unique=True)
+    password = db.Column(db.String(500), nullable=False)
+    type = db.Column(db.String(20), nullable=False, default='user')
+
+    def get_id(self):
+        return str(self.user_id)
 
 @google.tokengetter
 def get_google_oauth_token():
@@ -54,22 +62,12 @@ def google_authorized(resp):
     name = user_info.data.get('name')
     print(name)
     if email.endswith('@iitgn.ac.in'):
-        user = User.query.filter_by(email=email).first()
+        user = Users.query.filter_by(email_id=email).first()
         if user:
             login_user(user)
             return redirect(url_for('home'))
         else:
-            # User doesn't exist, create a new user
-            name = 'Someone'
-            name = user_info.data.get('name')
-            print(name)
-            # Generate a unique token for password
-            password_token = secrets.token_urlsafe(16)  # Generate a random URL-safe token
-            new_user = User(email=email, name=name, password=password_token)
-            db.session.add(new_user)
-            db.session.commit()
-            login_user(new_user)
-            return redirect(url_for('home'))
+            return render_template('home/signup.html', email_id=email)
     else:
         flash('Only users with @iitgn.ac.in email addresses are allowed.')
         return redirect(url_for('auth.login'))
@@ -78,9 +76,7 @@ def google_authorized(resp):
 def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
-    remember = True if request.form.get('remember') else False
-
-    user = User.query.filter_by(email=email).first()
+    user = Users.query.filter_by(email=email).first()
     if not user or not check_password_hash(user.password, password): 
         flash('Please check your login details and try again.')
         return redirect(url_for('auth.login')) 
@@ -88,28 +84,23 @@ def login_post():
     login_user(user, remember=remember)
     return redirect(url_for('home'))
 
-@auth.route('/signup')
-def signup():
-    return render_template('home/signup.html')
-
 @auth.route('/signup', methods=['POST'])
 def signup_post():
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+    mobile_number = request.form.get('mobile_number')
     email = request.form.get('email')
-    name = request.form.get('name')
-    password = request.form.get('password')
-
-    if email.endswith('@iitgn.ac.in'):
-        user = User.query.filter_by(email=email).first()
-        if user:
-            flash('Email address already exists')
-            return redirect(url_for('auth.login'))
-        else:
-            new_user = User(email=email, name=name, password=generate_password_hash(password))
-            db.session.add(new_user)
-            db.session.commit()
-            return redirect(url_for('auth.login'))
-    else:
-        flash('Only users with @iitgn.ac.in email addresses are allowed.')
+    try:
+        new_user = Users(first_name=first_name, last_name=last_name, mobile_number=mobile_number, email_id=email)
+        login_user(new_user)
+        db.session.add(new_user)
+        db.session.commit()
+        db.session.close()
+        return redirect(url_for('home'))
+    except Exception as e:
+        db.session.rollback()
+        print(e)
+        flash('An error occurred while adding the user. Please check your input.')
         return redirect(url_for('auth.login'))
 
 
