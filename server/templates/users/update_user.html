@@ -30,6 +30,14 @@ Update User
             <label for="mobile_number" class="form-label">Mobile Number</label>
             <input type="text" class="form-control" name="mobile_number" id="mobile_number" placeholder="Mobile Number" value="{{ user.mobile_number }}" required>
         </div>
+        <div class="mb-3">
+            <label for="type" class="form-label">User Type</label>
+            <select class="form-select" name="type" id="type" required>
+                <option value="">Select User Type</option>
+                <option value="user" {% if user.type == 'user' %} selected {% endif %}>User</option>
+                <option value="admin" {% if user.type == 'admin' %} selected {% endif %}>Admin</option>
+            </select>
+        </div>
         <button type="submit" class="btn mt-3 btn-outline-success">Update User</button>
     </form>
 </div>

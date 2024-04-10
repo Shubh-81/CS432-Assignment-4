@@ -40,10 +40,10 @@ def home(message=None):
     
 
     query = text("""
-        SELECT r.request_id, r.user_id, r.domain_id, r.location_id, r.subject, 
-            r.availability, r.status, r.description, r.admin_comments, 
-            r.image, r.created_at,
-            u.First_Name, u.Last_Name, u.Email_Id, u.mobile_number
+        SELECT r.request_id as request_id, r.user_id as user_id, r.domain_id as domain_id, r.location_id as location_id, r.subject as subject, 
+            r.availability as availability, r.status as status, r.description as description, r.admin_comments as admin_comments, 
+            r.image as image, r.created_at as created_at,
+            u.First_Name as first_name, u.Last_Name as last_name, u.Email_Id as email_id, u.mobile_number as mobile_number
         FROM Request_Table r
         JOIN User_Table u ON r.user_id = u.User_Id
     """)

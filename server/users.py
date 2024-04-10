@@ -23,8 +23,11 @@ def add_users(message=None):
         last_name = request.form['last_name']
         email_id = request.form['email_id']
         mobile_number = request.form['mobile_number']
+        user_type = request.form['type']
+        if not user_type:
+            user_type = 'user'
         try:
-            db.session.execute(text(f"INSERT INTO {table_name} (first_name, last_name, email_id, mobile_number) VALUES ('{first_name}', '{last_name}', '{email_id}', '{mobile_number}')"))
+            db.session.execute(text(f"INSERT INTO {table_name} (first_name, last_name, email_id, mobile_number, user_type) VALUES ('{first_name}', '{last_name}', '{email_id}', '{mobile_number}', '{user_type}')"))
             db.session.commit()
             db.session.close()
             message = "User added successfully"
@@ -46,8 +49,11 @@ def update_user(user_id, message=None):
         last_name = request.form['last_name']
         email_id = request.form['email_id']
         mobile_number = request.form['mobile_number']
+        user_type = request.form['type']
+        if not user_type:
+            user_type = 'user'
         try:
-            db.session.execute(text(f"UPDATE {table_name} SET first_name = '{first_name}', last_name = '{last_name}', email_id = '{email_id}', mobile_number = '{mobile_number}' WHERE user_id = {user_id}"))
+            db.session.execute(text(f"UPDATE {table_name} SET first_name = '{first_name}', last_name = '{last_name}', email_id = '{email_id}', mobile_number = '{mobile_number}', type = '{user_type}' WHERE user_id = {user_id}"))
             db.session.commit()
             db.session.close()
             message = "User updated successfully"

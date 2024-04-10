@@ -66,7 +66,10 @@ Maintainence
         <thead>
         <tr>
             <th scope="col">Request ID</th>
-            <th scope="col">User ID</th>
+            <th scope="col">User First Name</th>
+            <th scope="col">User Last Name</th>
+            <th scope="col">User Email</th>
+            <th scope="col">User Phone</th>
             <th scope="col">Domain ID</th>
             <th scope="col">Location ID</th>
             <th scope="col">Subject</th>
@@ -88,7 +91,10 @@ Maintainence
         {% for data in details %}
         <tr>
             <th scope="row">{{ data.request_id }}</th>
-            <td>{{ data.user_id }}</td>
+            <td>{{ data.first_name }}</td>
+            <td>{{ data.last_name }}</td>
+            <td>{{ data.email_id }}</td>
+            <td>{{ data.mobile_number }}</td>
             <td>{{ data.domain_id }}</td>
             <td>{{ data.location_id }}</td>
             <td>{{ data.subject }}</td>

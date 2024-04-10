@@ -48,6 +48,7 @@ Maintainence
             <th scope="col">Last Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
+            <th scope="col">User Type</th>
             <th scope="col">Actions</th>
         </tr>
         </thead>
@@ -64,6 +65,7 @@ Maintainence
             <td>{{ data.last_name }}</td>
             <td>{{ data.email_id }}</td>
             <td>{{ data.mobile_number }}</td>
+            <td>{{ data.type }}</td>
             <td>
                 <!-- Buttons for actions -->
                 <a href="{{ url_for('users.update_user', user_id=data.user_id) }}" class="btn btn-primary btn-sm">Update</a>
