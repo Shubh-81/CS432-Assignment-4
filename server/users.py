@@ -12,8 +12,18 @@ table_name = 'user_table'
 @users_bp.route("/users", methods=['GET', 'POST'])
 @login_required
 def home(message=None):
+    user_filter = request.args.get('user_type')
     details = Users.query.all()
-    return render_template("users/home.html", details=details, message=message)
+    if user_filter:
+        if user_filter == 'user':
+            filtered_requests = Users.query.filter_by(type='user').all()
+        elif user_filter == 'admin':
+            filtered_requests = Users.query.filter_by(type='admin').all()
+        else:
+            filtered_requests = details
+    else:
+        filtered_requests = details
+    return render_template("users/home.html", details=filtered_requests, message=message, user_filter=user_filter)
  
 @users_bp.route("/users/add", methods=['GET', 'POST'])
 @login_required

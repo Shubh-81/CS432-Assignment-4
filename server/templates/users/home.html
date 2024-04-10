@@ -31,8 +31,16 @@ Maintainence
   </div>
 
 <h1 class="text-center my-5">Users List</h1>
-<div class="container d-flex justify-content-center align-items-center">
-    <a class="btn btn-outline-info mb-3" href="{{ url_for('users.add_users') }}">Add Users</a>
+<div class="container d-flex justify-content-center align-items-center mb-3">
+    <a class="btn btn-outline-info me-3" href="{{ url_for('users.add_users') }}">Add Users</a>
+    <form class="d-flex" method="GET" action="{{ url_for('users.home') }}">
+      <select class="form-select me-3" name="user_type">
+          <option value="" {% if not user_filter %}selected{% endif %}>All</option>
+          <option value="user" {% if user_filter == 'user' %}selected{% endif %}>User</option>
+          <option value="admin" {% if user_filter == 'admin' %}selected{% endif %}>Admin</option>
+      </select>        
+      <button class="btn btn-primary" type="submit">Filter</button>
+  </form>
 </div>
 <div class="container">
     {% if message %}
