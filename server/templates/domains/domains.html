@@ -16,15 +16,15 @@ Add Domains
   <form action="/domains/add" method="POST">
 <div class="mb-3">
   <label for="title" class="form-label">Domain</label>
-  <input type="text" class="form-control" name="domain" id="domain" placeholder="Domain" required>
+  <input type="text" class="form-control" name="domain" id="domain" placeholder="Domain" required maxlength="20">
 </div>
 <div class="mb-3">
   <label for="title" class="form-label">Subdomain</label>
-  <input type="text" class="form-control" name="subdomain" id="subdomain" placeholder="Subdomain" required>
+  <input type="text" class="form-control" name="subdomain" id="subdomain" placeholder="Subdomain" required maxlength="40">
 </div>
 <div class="mb-3">
   <label for="title" class="form-label">Subdomain - 2</label>
-  <input type="text" class="form-control" name="subdomain_2" id="subdomain_2" placeholder="subdomain - 2" required>
+  <input type="text" class="form-control" name="subdomain_2" id="subdomain_2" placeholder="subdomain - 2" required maxlength="40">
 </div>
   <button type="submit" class="btn mt-3 btn-outline-success">Add Domain</button>
   </form>

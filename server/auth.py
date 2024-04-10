@@ -81,7 +81,7 @@ def login_post():
         flash('Please check your login details and try again.')
         return redirect(url_for('auth.login')) 
 
-    login_user(user, remember=remember)
+    login_user(user)
     return redirect(url_for('home'))
 
 @auth.route('/signup', methods=['POST'])

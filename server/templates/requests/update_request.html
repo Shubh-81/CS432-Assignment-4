@@ -28,11 +28,11 @@ Update Request
         </div>
         <div class="mb-3">
             <label for="subject" class="form-label">Subject</label>
-            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ requests.subject }}" required>
+            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ requests.subject }}" required maxlength="100">
         </div>        
         <div class="mb-3">
             <label for="availability" class="form-label">Availability</label>
-            <input type="text" class="form-control" name="availability" id="availability" placeholder="Availability" value="{{ requests.availability }}" required>
+            <input type="text" class="form-control" name="availability" id="availability" placeholder="Availability" value="{{ requests.availability }}" required maxlength="100">
         </div>
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>
@@ -45,11 +45,11 @@ Update Request
         </div>      
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <input type="text" class="form-control" name="description" id="description" placeholder="Description" value="{{ requests.description }}">
+            <input type="text" class="form-control" name="description" id="description" placeholder="Description" value="{{ requests.description }}" maxlength="200">
         </div>
         <div class="mb-3">
             <label for="admin_comments" class="form-label">Admin Comments</label>
-            <input type="text" class="form-control" name="admin_comments" id="admin_comments" placeholder="Admin Comments" value="{{ requests.admin_comments }}">
+            <input type="text" class="form-control" name="admin_comments" id="admin_comments" placeholder="Admin Comments" value="{{ requests.admin_comments }}" maxlength="200">
         </div>
 
         <!-- Displaying current image, if exists -->

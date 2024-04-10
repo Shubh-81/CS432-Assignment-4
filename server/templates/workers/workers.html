@@ -16,27 +16,28 @@ Add Workers
   <form action="/workers/add" method="POST">
 <div class="mb-3">
   <label for="title" class="form-label">First Name</label>
-  <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" required>
+  <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" required maxlength="20">
 </div>
 <div class="mb-3">
   <label for="title" class="form-label">Middle Name</label>
-  <input type="text" class="form-control" name="middle_name" id="middle_name" placeholder="Middle Name">
+  <input type="text" class="form-control" name="middle_name" id="middle_name" placeholder="Middle Name" maxlength="20">
 </div>
 <div class="mb-3">
   <label for="title" class="form-label">Last Name</label>
-  <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name">
+  <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name" required maxlength="20">
 </div>
 <div class="mb-3">
   <label for="title" class="form-label">Domain Id</label>
-  <input type="text" class="form-control" name="domain_id" id="domain_id" placeholder="Domain Id" required>
+  <input type="number" class="form-control" name="domain_id" id="domain_id" placeholder="Domain Id" required>
 </div>
 <div class="mb-3">
   <label for="title" class="form-label">Availability</label>
-  <input type="text" class="form-control" name="availability" id="availability" placeholder="Availability" required>
+  <input type="text" class="form-control" name="availability" id="availability" placeholder="Availability" required maxlength="100">
 </div>
 <div class="mb-3">
   <label for="title" class="form-label">Mobile Number</label>
-  <input type="text" class="form-control" name="mobile_number" id="mobile_number" placeholder="Mobile Number" required>
+  <input type="text" class="form-control" name="mobile_number" id="mobile_number" placeholder="Mobile Number" required pattern="[0-9]{10}">
+  <small class="text-muted">Enter 10 digits only.</small>
 </div>
   <button type="submit" class="btn mt-3 btn-outline-success">Add Worker</button>
   </form>

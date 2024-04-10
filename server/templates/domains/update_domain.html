@@ -16,15 +16,15 @@ Update Domain
     <form action="{{ url_for('domains.update_domain', domain_id=domain.domain_id) }}" method="POST">
         <div class="mb-3">
             <label for="first_name" class="form-label">Domain</label>
-            <input type="text" class="form-control" name="domain" id="domain" placeholder="Domain" value="{{ domain.domain }}" required>
+            <input type="text" class="form-control" name="domain" id="domain" placeholder="Domain" value="{{ domain.domain }}" required maxlength="20">
         </div>
         <div class="mb-3">
             <label for="middle_name" class="form-label">Subdomain</label>
-            <input type="text" class="form-control" name="subdomain" id="subdomain" placeholder="Subdomain" value="{{ domain.subdomain }}" required>
+            <input type="text" class="form-control" name="subdomain" id="subdomain" placeholder="Subdomain" value="{{ domain.subdomain }}" required maxlength="40">
         </div>
         <div class="mb-3">
             <label for="last_name" class="form-label">Subdomain - 2</label>
-            <input type="text" class="form-control" name="subdomain_2" id="subdomain_2" placeholder="Subdomain - 2" value="{{ domain.subdomain_2 }}" required>
+            <input type="text" class="form-control" name="subdomain_2" id="subdomain_2" placeholder="Subdomain - 2" value="{{ domain.subdomain_2 }}" required maxlength="40">
         </div>
         <button type="submit" class="btn mt-3 btn-outline-success">Update Domain</button>
     </form>

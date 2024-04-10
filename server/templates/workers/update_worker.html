@@ -16,27 +16,28 @@ Update Worker
     <form action="{{ url_for('workers.update_worker', worker_id=worker.worker_id) }}" method="POST">
         <div class="mb-3">
             <label for="first_name" class="form-label">First Name</label>
-            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" value="{{ worker.first_name }}" required>
+            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" value="{{ worker.first_name }}" required maxlength="20">
         </div>
         <div class="mb-3">
             <label for="middle_name" class="form-label">Middle Name</label>
-            <input type="text" class="form-control" name="middle_name" id="middle_name" placeholder="Middle Name" value="{{ worker.middle_name }}">
+            <input type="text" class="form-control" name="middle_name" id="middle_name" placeholder="Middle Name" value="{{ worker.middle_name }}" maxlength="20">
         </div>
         <div class="mb-3">
             <label for="last_name" class="form-label">Last Name</label>
-            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name" value="{{ worker.last_name }}">
+            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name" value="{{ worker.last_name }}" required maxlength="20">
         </div>
         <div class="mb-3">
             <label for="email_id" class="form-label">Domain Id</label>
-            <input type="text" class="form-control" name="domain_id" id="domain_id" placeholder="Domain Id" value="{{ worker.domain_id }}" required>
+            <input type="number" class="form-control" name="domain_id" id="domain_id" placeholder="Domain Id" value="{{ worker.domain_id }}" required>
         </div>
         <div class="mb-3">
             <label for="email_id" class="form-label">Availability</label>
-            <input type="text" class="form-control" name="availability" id="availability" placeholder="Availability" value="{{ worker.availability }}" required>
+            <input type="text" class="form-control" name="availability" id="availability" placeholder="Availability" value="{{ worker.availability }}" required maxlength="100">
         </div>
         <div class="mb-3">
             <label for="mobile_number" class="form-label">Mobile Number</label>
-            <input type="text" class="form-control" name="mobile_number" id="mobile_number" placeholder="Mobile Number" value="{{ worker.mobile_number }}" required>
+            <input type="text" class="form-control" name="mobile_number" id="mobile_number" placeholder="Mobile Number" value="{{ worker.mobile_number }}" required pattern="[0-9]{10}">
+            <small class="text-muted">Enter 10 digits only.</small>
         </div>
         <button type="submit" class="btn mt-3 btn-outline-success">Update worker</button>
     </form>

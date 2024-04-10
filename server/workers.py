@@ -11,12 +11,12 @@ class Workers(db.Model):
     __tablename__ = "worker_table"
  
     worker_id = db.Column(db.Integer, primary_key=True, unique=True)
-    first_name = db.Column(db.String(500), nullable=False)
-    middle_name = db.Column(db.String(500), nullable=True)
-    last_name = db.Column(db.String(500), nullable=True)
+    first_name = db.Column(db.String(20), nullable=False)
+    middle_name = db.Column(db.String(20), nullable=True)
+    last_name = db.Column(db.String(20), nullable=True)
     domain_id = db.Column(db.Integer, nullable=False)
-    availability = db.Column(db.String(500), nullable=False)
-    mobile_number = db.Column(db.String(500), nullable=False, unique=True)
+    availability = db.Column(db.String(100), nullable=False)
+    mobile_number = db.Column(db.String(10), nullable=False, unique=True)
 
 
 @workers_bp.route("/workers", methods=['GET', 'POST'])
