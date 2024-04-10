@@ -31,7 +31,6 @@ class Users(db.Model, UserMixin):
     last_name = db.Column(db.String(20), nullable=True)
     email_id = db.Column(db.String(255), nullable=False, unique=True)
     mobile_number = db.Column(db.String(10), nullable=False, unique=True)
-    password = db.Column(db.String(500), nullable=False)
     type = db.Column(db.String(20), nullable=False, default='user')
 
     def get_id(self):

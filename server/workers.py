@@ -12,7 +12,6 @@ class Workers(db.Model):
  
     worker_id = db.Column(db.Integer, primary_key=True, unique=True)
     first_name = db.Column(db.String(20), nullable=False)
-    middle_name = db.Column(db.String(20), nullable=True)
     last_name = db.Column(db.String(20), nullable=True)
     domain_id = db.Column(db.Integer, nullable=False)
     availability = db.Column(db.String(100), nullable=False)
@@ -30,13 +29,12 @@ def home(message=None):
 def add_workers(message=None):
     if request.method == 'POST':
         first_name = request.form['first_name']
-        middle_name = request.form['middle_name']
         last_name = request.form['last_name']
         domain_id = request.form['domain_id']
         availability = request.form['availability']
         mobile_number = request.form['mobile_number']
         try:
-            db.session.execute(text(f"INSERT INTO {table_name} (first_name, middle_name, last_name, domain_id, availability, mobile_number) VALUES ('{first_name}', '{middle_name}', '{last_name}', '{domain_id}', '{availability}', '{mobile_number}')"))
+            db.session.execute(text(f"INSERT INTO {table_name} (first_name, last_name, domain_id, availability, mobile_number) VALUES ('{first_name}', '{last_name}', '{domain_id}', '{availability}', '{mobile_number}')"))
             db.session.commit()
             db.session.close()
             message = "Worker added successfully"
@@ -55,13 +53,12 @@ def update_worker(worker_id, message=None):
     worker = Workers.query.get_or_404(worker_id)
     if request.method == 'POST':
         first_name = request.form['first_name']
-        middle_name = request.form['middle_name']
         last_name = request.form['last_name']
         domain_id = request.form['domain_id']
         availability = request.form['availability']
         mobile_number = request.form['mobile_number']
         try:
-            db.session.execute(text(f"UPDATE {table_name} SET first_name = '{first_name}', middle_name = '{middle_name}', last_name = '{last_name}', domain_id = '{domain_id}', mobile_number = '{mobile_number}', availability = '{availability}' WHERE worker_id = {worker_id}"))
+            db.session.execute(text(f"UPDATE {table_name} SET first_name = '{first_name}', last_name = '{last_name}', domain_id = '{domain_id}', mobile_number = '{mobile_number}', availability = '{availability}' WHERE worker_id = {worker_id}"))
             db.session.commit()
             db.session.close()
             message = "Worker updated successfully"
