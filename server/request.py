@@ -1,6 +1,6 @@
 from sqlalchemy.sql import text
 from flask import Blueprint, render_template, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from database import db
 import imghdr
 import io
@@ -36,6 +36,10 @@ class Requests(db.Model):
 @requests_bp.route("/requests", methods=['GET', 'POST'])
 @login_required
 def home(message=None):
+    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+    user_type = user_type[0]
+    if user_type != 'admin':
+        return render_template("home/notfound.html")
     status_filter = request.args.get('status')
     
 
@@ -75,6 +79,10 @@ def allowed_file(filename):
 
 @requests_bp.route("/requests/add", methods=['GET', 'POST'])
 def add_requests(message=None):
+    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+    user_type = user_type[0]
+    if user_type != 'admin':
+        return render_template("home/notfound.html")
     if request.method == 'POST':
         user_id = request.form['user_id']
         domain_id = request.form['domain_id']
@@ -104,10 +112,12 @@ def add_requests(message=None):
 @requests_bp.route("/requests/update/<int:request_id>", methods=['GET', 'POST'])
 @login_required
 def update_request(request_id, message=None):
+    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+    user_type = user_type[0]
+    if user_type != 'admin':
+        return render_template("home/notfound.html")
     requests = Requests.query.get_or_404(request_id)
-    print(requests)
     if request.method == 'POST':
-        print(request.form)
         user_id = request.form['user_id'] 
         domain_id = request.form['domain_id']
         location_id = request.form['location_id']
@@ -139,6 +149,10 @@ def update_request(request_id, message=None):
 @requests_bp.route("/requests/delete/<int:request_id>", methods=['POST'])
 @login_required
 def delete_request(request_id):
+    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+    user_type = user_type[0]
+    if user_type != 'admin':
+        return render_template("home/notfound.html")
     if request.method == 'POST':
         try:
             db.session.execute(text(f"DELETE FROM {table_name} WHERE request_id = {request_id}"))
@@ -161,7 +175,6 @@ def serve_image(request_id):
         image_type = imghdr.what(None, h=request_entry.image)
         if image_type is None:
             return 'No image', 404
-
         image_data.seek(0)  # Seek to the start of the StringIO object before sending it
         mimetype = 'image/' + image_type
         return send_file(

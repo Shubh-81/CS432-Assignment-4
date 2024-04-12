@@ -1,0 +1,135 @@
+{% extends 'requests/base.html' %}
+ 
+{% block title %}
+Add requests
+{% endblock %}
+ 
+{% block content %}
+<h1 class="text-center my-5">Add Request</h1>
+<div class="container">
+  {% if message %}
+    <script>
+        alert("{{ message }}");
+    </script>
+  {% endif %}
+  <div class="me-3">
+    <a href="{{ url_for('userrequests') }}" class="btn me-3 btn-outline-info">All Requests</a>
+    <a href="/logout" class="btn btn-outline-danger me-3">Logout</a>
+  </div>
+  <br/>
+  <form action="" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="user_id" class="form-label">User ID</label>
+      <input type="number" class="form-control" name="user_id" id="user_id" placeholder="User ID" value="{{user_id}}" required readonly>
+    </div>
+    <div class="mb-3">
+      <label for="domain" class="form-label">Domain</label>
+      <select class="form-select" name="domain" id="domain" required>
+        <option value="">Select Domain</option>
+        {% for domain in domains %}
+          <option value="{{ domain[1] }}">{{ domain[1] }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="subdomain" class="form-label">Subdomain</label>
+      <select class="form-select" name="subdomain" id="subdomain" required disabled>
+        <option value="">Select Subdomain</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="subdomain2" class="form-label">Subdomain 2</label>
+      <select class="form-select" name="subdomain2" id="subdomain2" required disabled>
+        <option value="">Select Subdomain 2</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="location" class="form-label">Location</label>
+      <select class="form-select" name="location" id="location" required>
+        <option value="">Select Location</option>
+        {% for loc in locations %}
+          <option value="{{ loc }}">{{ loc }}</option>
+        {% endfor %}
+      </select>
+    </div>        
+    <div class="mb-3">
+      <label for="building_name" class="form-label">Building Name</label>
+      <input type="text" class="form-control" name="building_name" id="building_name" placeholder="Building Name" maxlength="100">
+    </div>
+    <div class="mb-3">
+      <label for="room_no" class="form-label">Room Number</label>
+      <input type="number" class="form-control" name="room_no" id="room_no" placeholder="Room Number">
+    </div>        
+    <div class="mb-3">
+      <label for="location_description" class="form-label">Location Description</label>
+      <input type="text" class="form-control" name="location_description" id="location_description" placeholder="Location Description" required maxlength="200">
+    </div>
+    <div class="mb-3">
+      <label for="subject" class="form-label">Subject</label>
+      <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required maxlength="100">
+    </div>
+    <div class="mb-3">
+      <label for="availability" class="form-label">Availability</label>
+      <input type="text" class="form-control" name="availability" id="availability" placeholder="Availability" required maxlength="100">
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Problem Description</label>
+      <input type="text" class="form-control" name="description" id="description" placeholder="Problem Description" maxlength="200">
+    </div>
+    <div class="mb-3">
+      <label for="image" class="form-label">Image</label>
+      <input type="file" class="form-control" name="image" id="image" placeholder="Image">
+    </div>
+    
+    <button type="submit" class="btn mt-3 btn-outline-success">Add request</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('domain').addEventListener('change', function() {
+    var selectedDomain = this.value;
+    var subdomainDropdown = document.getElementById('subdomain');
+    var subdomain2Dropdown = document.getElementById('subdomain2');
+    var subdomains = [];
+    subdomainDropdown.innerHTML = '<option value="">Select Subdomain</option>';
+    subdomainDropdown.disabled = true;
+    subdomain2Dropdown.innerHTML = '<option value="">Select Subdomain 2</option>';
+    subdomain2Dropdown.disabled = true;
+    {% for domain in domains %}
+      if ('{{ domain[1] }}' == selectedDomain) {
+        subdomains.push('{{ domain[2] }}');
+      }
+    {% endfor %}
+
+    subdomains.forEach(function(subdomain) {
+      var option = document.createElement('option');
+      option.value = subdomain;
+      option.textContent = subdomain;
+      subdomainDropdown.appendChild(option);
+    });
+    subdomainDropdown.disabled = false;
+  });
+
+  document.getElementById('subdomain').addEventListener('change', function() {
+    console.log('subdomain changed');
+    var selectedDomain = this.value;
+    var subdomainDropdown = document.getElementById('subdomain2');
+    var subdomains = [];
+    subdomainDropdown.innerHTML = '<option value="">Select Subdomain 2</option>';
+    subdomainDropdown.disabled = true;
+    {% for domain in domains %}
+      if ('{{ domain[2] }}' == selectedDomain) {
+        subdomains.push('{{ domain[3] }}');
+      }
+    {% endfor %}
+
+    subdomains.forEach(function(subdomain) {
+      var option = document.createElement('option');
+      option.value = subdomain;
+      option.textContent = subdomain;
+      subdomainDropdown.appendChild(option);
+    });
+    subdomainDropdown.disabled = false;
+  });
+</script>
+{% endblock %}

@@ -1,6 +1,6 @@
 from sqlalchemy.sql import text
 from flask import Blueprint, render_template, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from database import db
 
 workers_bp = Blueprint('workers', __name__)
@@ -21,12 +21,20 @@ class Workers(db.Model):
 @workers_bp.route("/workers", methods=['GET', 'POST'])
 @login_required
 def home(message=None):
+    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+    user_type = user_type[0]
+    if user_type != 'admin':
+        return render_template("home/notfound.html")
     details = Workers.query.all()
     return render_template("workers/home.html", details=details, message=message)
  
 @workers_bp.route("/workers/add", methods=['GET', 'POST'])
 @login_required
 def add_workers(message=None):
+    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+    user_type = user_type[0]
+    if user_type != 'admin':
+        return render_template("home/notfound.html")
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
@@ -50,6 +58,10 @@ def add_workers(message=None):
 @workers_bp.route("/workers/update/<int:worker_id>", methods=['GET', 'POST'])
 @login_required
 def update_worker(worker_id, message=None):
+    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+    user_type = user_type[0]
+    if user_type != 'admin':
+        return render_template("home/notfound.html")
     worker = Workers.query.get_or_404(worker_id)
     if request.method == 'POST':
         first_name = request.form['first_name']
@@ -75,6 +87,10 @@ def update_worker(worker_id, message=None):
 @workers_bp.route("/workers/delete/<int:worker_id>", methods=['POST'])
 @login_required
 def delete_worker(worker_id):
+    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+    user_type = user_type[0]
+    if user_type != 'admin':
+        return render_template("home/notfound.html")
     if request.method == 'POST':
         try:
             db.session.execute(text(f"DELETE FROM {table_name} WHERE worker_id = {worker_id}"))

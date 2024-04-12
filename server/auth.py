@@ -36,6 +36,9 @@ class Users(db.Model, UserMixin):
     def get_id(self):
         return str(self.user_id)
 
+    def get_type(self):
+        return str(self.type)
+
 @google.tokengetter
 def get_google_oauth_token():
     return session.get('google_token')

@@ -1,6 +1,6 @@
 from sqlalchemy.sql import text
 from flask import Blueprint, render_template, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from database import db
 
 domains_bp = Blueprint('domains', __name__)
@@ -19,12 +19,20 @@ class Domains(db.Model):
 @domains_bp.route("/domains", methods=['GET', 'POST'])
 @login_required
 def home(message=None):
+    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+    user_type = user_type[0]
+    if user_type != 'admin':
+        return render_template("home/notfound.html")
     details = Domains.query.all()
     return render_template("domains/home.html", details=details, message=message)
  
 @domains_bp.route("/domains/add", methods=['GET', 'POST'])
 @login_required
 def add_domains(message=None):
+    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+    user_type = user_type[0]
+    if user_type != 'admin':
+        return render_template("home/notfound.html")
     if request.method == 'POST':
         domain = request.form['domain']
         subdomain = request.form['subdomain']
@@ -46,6 +54,10 @@ def add_domains(message=None):
 @domains_bp.route("/domains/update/<int:domain_id>", methods=['GET', 'POST'])
 @login_required
 def update_domain(domain_id, message=None):
+    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+    user_type = user_type[0]
+    if user_type != 'admin':
+        return render_template("home/notfound.html")
     domain = Domains.query.get_or_404(domain_id)
     if request.method == 'POST':
         domain = request.form['domain']
@@ -69,6 +81,10 @@ def update_domain(domain_id, message=None):
 @domains_bp.route("/domains/delete/<int:domain_id>", methods=['POST'])
 @login_required
 def delete_domain(domain_id):
+    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+    user_type = user_type[0]
+    if user_type != 'admin':
+        return render_template("home/notfound.html")
     if request.method == 'POST':
         try:
             db.session.execute(text(f"DELETE FROM {table_name} WHERE domain_id = {domain_id}"))
