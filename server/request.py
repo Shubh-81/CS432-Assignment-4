@@ -38,6 +38,7 @@ class Requests(db.Model):
 def home(message=None):
     user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
     user_type = user_type[0]
+    print(user_type)
     if user_type != 'admin':
         return render_template("home/notfound.html")
     status_filter = request.args.get('status')

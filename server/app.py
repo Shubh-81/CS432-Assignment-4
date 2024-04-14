@@ -24,60 +24,65 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
-    user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
-    user_type = user_type[0]
-    if user_type == 'admin':
-        return render_template("home/home.html")
-    else:
-        if request.method == 'POST':
-            domains = db.session.execute(text(f"SELECT * FROM domain_table")).fetchall()
-            user_id = current_user.user_id
-            domain = request.form['domain']
-            subdomain = request.form['subdomain']
-            subdomain_2 = request.form['subdomain2']
-            domain_id = db.session.execute(text(f"SELECT domain_id FROM domain_table WHERE domain = '{domain}' AND subdomain = '{subdomain}' AND subdomain_2 = '{subdomain_2}'")).fetchone()
-            if not domain_id:
-                message = "An error occurred while adding the domain. Please check your input."
-                return render_template("home/userrequest.html", message=message, user_id=current_user.user_id, locations=['Hostel','Housing','Academic','Infrastructure','Guest House','Central Arcade','Sports Complex','Research Park'], domains=domains)
-            domain_id = domain_id[0]
-            location = request.form['location']
-            building_name = request.form['building_name']
-            room_number = request.form['room_no']
-            location_description = request.form['location_description']
-            location_id = db.session.execute(text(f"SELECT location_id FROM location_table WHERE location = '{location}' AND building_name = '{building_name}' AND room_no = '{room_number}' AND description = '{location_description}'")).fetchone()
-            if not location_id:
+    try:
+        user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
+        user_type = user_type[0]
+    except Exception as e:
+        print(e)
+        user_type = 'user'
+    finally:
+        if user_type == 'admin':
+            return render_template("home/home.html")
+        else:
+            if request.method == 'POST':
+                domains = db.session.execute(text(f"SELECT * FROM domain_table")).fetchall()
+                user_id = current_user.user_id
+                domain = request.form['domain']
+                subdomain = request.form['subdomain']
+                subdomain_2 = request.form['subdomain2']
+                domain_id = db.session.execute(text(f"SELECT domain_id FROM domain_table WHERE domain = '{domain}' AND subdomain = '{subdomain}' AND subdomain_2 = '{subdomain_2}'")).fetchone()
+                if not domain_id:
+                    message = "An error occurred while adding the domain. Please check your input."
+                    return render_template("home/userrequest.html", message=message, user_id=current_user.user_id, locations=['Hostel','Housing','Academic','Infrastructure','Guest House','Central Arcade','Sports Complex','Research Park'], domains=domains)
+                domain_id = domain_id[0]
+                location = request.form['location']
+                building_name = request.form['building_name']
+                room_number = request.form['room_no']
+                location_description = request.form['location_description']
+                location_id = db.session.execute(text(f"SELECT location_id FROM location_table WHERE location = '{location}' AND building_name = '{building_name}' AND room_no = '{room_number}' AND description = '{location_description}'")).fetchone()
+                if not location_id:
+                    try:
+                        db.session.execute(text(f"INSERT INTO location_table (location, building_name, room_no, description) VALUES ('{location}', '{building_name}', '{room_number}', '{location_description}')"))
+                        db.session.commit()
+                        location_id = db.session.execute(text(f"SELECT location_id FROM location_table WHERE location = '{location}' AND building_name = '{building_name}' AND room_no = '{room_number}' AND description = '{location_description}'")).fetchone()
+                    except Exception as e:
+                        db.session.rollback()
+                        print(e)
+                        message = "An error occurred while adding the location. Please check your input."
+                        return render_template("home/userrequest.html", message=message, user_id=current_user.user_id, locations=['Hostel','Housing','Academic','Infrastructure','Guest House','Central Arcade','Sports Complex','Research Park'], domains=domains)
+                location_id = location_id[0]
+                subject = request.form['subject']
+                availability = request.form['availability']
+                status = 'pending'
+                description = request.form['description']
+                admin_comments = ''
+                image = request.files['image']
+                if image and allowed_file(image.filename):
+                    image_data = image.read()
+                else:
+                    image_data = None
                 try:
-                    db.session.execute(text(f"INSERT INTO location_table (location, building_name, room_no, description) VALUES ('{location}', '{building_name}', '{room_number}', '{location_description}')"))
+                    new_request = Requests(user_id=user_id, domain_id=domain_id, location_id=location_id, subject=subject, availability=availability, status=status, description=description, admin_comments=admin_comments, image=image_data)
+                    db.session.add(new_request)
                     db.session.commit()
-                    location_id = db.session.execute(text(f"SELECT location_id FROM location_table WHERE location = '{location}' AND building_name = '{building_name}' AND room_no = '{room_number}' AND description = '{location_description}'")).fetchone()
+                    message = "Request added successfully"
                 except Exception as e:
                     db.session.rollback()
                     print(e)
-                    message = "An error occurred while adding the location. Please check your input."
-                    return render_template("home/userrequest.html", message=message, user_id=current_user.user_id, locations=['Hostel','Housing','Academic','Infrastructure','Guest House','Central Arcade','Sports Complex','Research Park'], domains=domains)
-            location_id = location_id[0]
-            subject = request.form['subject']
-            availability = request.form['availability']
-            status = 'pending'
-            description = request.form['description']
-            admin_comments = ''
-            image = request.files['image']
-            if image and allowed_file(image.filename):
-                image_data = image.read()
-            else:
-                image_data = None
-            try:
-                new_request = Requests(user_id=user_id, domain_id=domain_id, location_id=location_id, subject=subject, availability=availability, status=status, description=description, admin_comments=admin_comments, image=image_data)
-                db.session.add(new_request)
-                db.session.commit()
-                message = "Request added successfully"
-            except Exception as e:
-                db.session.rollback()
-                print(e)
-                message = "An error occurred while adding the Request. Please check if the any of the foreign keys (user_id, domain_id, location_id) are invalid."
-            return render_template("home/userrequest.html", message=message, user_id=current_user.user_id, locations=['Hostel','Housing','Academic','Infrastructure','Guest House','Central Arcade','Sports Complex','Research Park'], domains=domains)
-        domains = db.session.execute(text(f"SELECT * FROM domain_table")).fetchall()
-        return render_template("home/userrequest.html", user_id=current_user.user_id, locations=['Hostel','Housing','Academic','Infrastructure','Guest House','Central Arcade','Sports Complex','Research Park'], domains=domains)
+                    message = "An error occurred while adding the Request. Please check if the any of the foreign keys (user_id, domain_id, location_id) are invalid."
+                return render_template("home/userrequest.html", message=message, user_id=current_user.user_id, locations=['Hostel','Housing','Academic','Infrastructure','Guest House','Central Arcade','Sports Complex','Research Park'], domains=domains)
+            domains = db.session.execute(text(f"SELECT * FROM domain_table")).fetchall()
+            return render_template("home/userrequest.html", user_id=current_user.user_id, locations=['Hostel','Housing','Academic','Infrastructure','Guest House','Central Arcade','Sports Complex','Research Park'], domains=domains)
 
 @app.route('/userrequests', methods=['GET'])
 @login_required

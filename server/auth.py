@@ -94,11 +94,11 @@ def signup_post():
     email = request.form.get('email')
     try:
         new_user = Users(first_name=first_name, last_name=last_name, mobile_number=mobile_number, email_id=email)
-        login_user(new_user)
         db.session.add(new_user)
         db.session.commit()
         db.session.close()
-        return redirect(url_for('home'))
+        flash('Account created successfully! Please login.')
+        return redirect(url_for('auth.login'))
     except Exception as e:
         db.session.rollback()
         print(e)
