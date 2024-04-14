@@ -42,31 +42,59 @@ def home(message=None):
     if user_type != 'admin':
         return render_template("home/notfound.html")
     status_filter = request.args.get('status')
-    
-
-    query = text("""
-        SELECT r.request_id as request_id, r.user_id as user_id, r.domain_id as domain_id, r.location_id as location_id, r.subject as subject, 
-            r.availability as availability, r.status as status, r.description as description, r.admin_comments as admin_comments, 
-            r.image as image, r.created_at as created_at,
-            u.First_Name as first_name, u.Last_Name as last_name, u.Email_Id as email_id, u.mobile_number as mobile_number
-        FROM Request_Table r
-        JOIN User_Table u ON r.user_id = u.User_Id
-    """)
-
-    all_requests = db.session.execute(query)
 
     if status_filter:
         if status_filter == 'pending':
-            filtered_requests = Requests.query.filter_by(status='Pending').all()
+            query = text("""
+                SELECT r.request_id as request_id, r.user_id as user_id, r.domain_id as domain_id, r.location_id as location_id, r.subject as subject, 
+                    r.availability as availability, r.status as status, r.description as description, r.admin_comments as admin_comments, 
+                    r.image as image, r.created_at as created_at,
+                    u.First_Name as first_name, u.Last_Name as last_name, u.Email_Id as email_id, u.mobile_number as mobile_number
+                FROM Request_Table r
+                JOIN User_Table u ON r.user_id = u.User_Id
+                WHERE r.status = 'Pending'
+            """)
         elif status_filter == 'ongoing':
-            filtered_requests = Requests.query.filter_by(status='Ongoing').all()
+            query = text("""
+                SELECT r.request_id as request_id, r.user_id as user_id, r.domain_id as domain_id, r.location_id as location_id, r.subject as subject, 
+                    r.availability as availability, r.status as status, r.description as description, r.admin_comments as admin_comments, 
+                    r.image as image, r.created_at as created_at,
+                    u.First_Name as first_name, u.Last_Name as last_name, u.Email_Id as email_id, u.mobile_number as mobile_number
+                FROM Request_Table r
+                JOIN User_Table u ON r.user_id = u.User_Id
+                WHERE r.status = 'Ongoing'
+            """)
         elif status_filter == 'completed':
-            filtered_requests = Requests.query.filter_by(status='Completed').all()
+            query = text("""
+                SELECT r.request_id as request_id, r.user_id as user_id, r.domain_id as domain_id, r.location_id as location_id, r.subject as subject, 
+                    r.availability as availability, r.status as status, r.description as description, r.admin_comments as admin_comments, 
+                    r.image as image, r.created_at as created_at,
+                    u.First_Name as first_name, u.Last_Name as last_name, u.Email_Id as email_id, u.mobile_number as mobile_number
+                FROM Request_Table r
+                JOIN User_Table u ON r.user_id = u.User_Id
+                WHERE r.status = 'Completed'
+            """)
         else:
-            filtered_requests = all_requests
+            query = text("""
+                SELECT r.request_id as request_id, r.user_id as user_id, r.domain_id as domain_id, r.location_id as location_id, r.subject as subject, 
+                    r.availability as availability, r.status as status, r.description as description, r.admin_comments as admin_comments, 
+                    r.image as image, r.created_at as created_at,
+                    u.First_Name as first_name, u.Last_Name as last_name, u.Email_Id as email_id, u.mobile_number as mobile_number
+                FROM Request_Table r
+                JOIN User_Table u ON r.user_id = u.User_Id
+            """)
     else:
-        filtered_requests = all_requests
+        query = text("""
+                SELECT r.request_id as request_id, r.user_id as user_id, r.domain_id as domain_id, r.location_id as location_id, r.subject as subject, 
+                    r.availability as availability, r.status as status, r.description as description, r.admin_comments as admin_comments, 
+                    r.image as image, r.created_at as created_at,
+                    u.First_Name as first_name, u.Last_Name as last_name, u.Email_Id as email_id, u.mobile_number as mobile_number
+                FROM Request_Table r
+                JOIN User_Table u ON r.user_id = u.User_Id
+                WHERE r.status = 'Ongoing'
+            """)
 
+    filtered_requests = db.session.execute(query).fetchall()
     today = datetime.utcnow().date()
     ten_days_ago = today - timedelta(days=10)
     pending_count = db.session.query(func.count(Requests.request_id)).filter(Requests.status == 'Pending', Requests.created_at >= ten_days_ago).scalar()
