@@ -5,21 +5,36 @@ Login Page
 {% endblock %}
 
 {% block content %}
-<div class="container text-center"> <!-- Center content -->
-  <h1 class="my-5">IIT Gandhinagar Maintenance Portal</h1> <!-- Title -->
-  <h2 class="mb-4">Sign in to your account</h2> <!-- Subtitle -->
+<div class="container "> <!-- Center content -->
+  <div class="eleven text-center">
+    <h1 class="my-5">IIT Gandhinagar Maintenance Portal</h1> <!-- Title -->
+  </div>
+
+  <div class="complete_part">
+
+    <div class='leftpart'>
+      <img src="https://media.istockphoto.com/id/1131829623/vector/line-repair-icons.jpg?s=612x612&w=0&k=20&c=zBAkxdh2UkY1Fizg-eg3PFTHfTVnEhtK7f2ziq5n0g0=" alt="check" width="600" height="600">
+    </div>
   
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-      <div class="notification is-danger">
-          {{ messages[0] }}
-      </div>
-  {% endif %}
-  {% endwith %}
+    <div class="rightpart">
   
-  <!-- Add Google Login Button -->
-  <a href="{{ url_for('auth.login_google') }}" class="btn btn-danger btn-lg mt-5"> <!-- Larger button -->
-    <i class="fab fa-google"></i> Login with Google
-  </a>
+      <h3 class="mb-4">Sign in to your account</h3> <!-- Subtitle -->
+      
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          <div class="notification is-danger">
+              {{ messages[0] }}
+          </div>
+      {% endif %}
+      {% endwith %}
+      
+      <!-- Add Google Login Button -->
+      <a href="{{ url_for('auth.login_google') }}" class="btn btn-danger btn-lg mt-5"> <!-- Larger button -->
+        <i class="fab fa-google"></i> Login with Google
+      </a>
+  
+    </div>
+  </div>
+  
 </div>
 {% endblock %}
