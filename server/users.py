@@ -45,7 +45,7 @@ def add_users(message=None):
         if not user_type:
             user_type = 'user'
         try:
-            db.session.execute(text(f"INSERT INTO {table_name} (first_name, last_name, email_id, mobile_number, user_type) VALUES ('{first_name}', '{last_name}', '{email_id}', '{mobile_number}', '{user_type}')"))
+            db.session.execute(text(f"INSERT INTO {table_name} (first_name, last_name, email_id, mobile_number, type) VALUES ('{first_name}', '{last_name}', '{email_id}', '{mobile_number}', '{user_type}')"))
             db.session.commit()
             db.session.close()
             message = "User added successfully"
