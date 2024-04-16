@@ -14,7 +14,8 @@ Add requests
     {% endif %}
   <a href="{{ url_for('requests.home') }}" class="btn mb-3 btn-outline-info">Go Back</a>
   <form action="/requests/add" method="POST" enctype="multipart/form-data">
-    <div class="mb-3">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+      <div class="mb-3">
       <label for="user_id" class="form-label">User ID</label>
       <input type="number" class="form-control" name="user_id" id="user_id" placeholder="User ID" required>
     </div>

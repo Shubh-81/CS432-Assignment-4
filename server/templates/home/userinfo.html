@@ -14,7 +14,8 @@ Sign Up Page
         </div>
     {% endif %}
     {% endwith %}
-  <form action="" method="POST" action="{{url_for('auth.signup')}}">  
+  <form action="" method="POST" action="{{url_for('auth.signup')}}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <div class="mb-3">
         <label for="first_name" class="form-label">First Name</label>
         <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" required maxlength="20">

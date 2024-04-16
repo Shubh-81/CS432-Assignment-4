@@ -10,10 +10,13 @@ from database import db
 from flask_login import login_user, logout_user, login_required
 from sqlalchemy.sql import text
 from request import Requests
+from flask_wtf import CSRFProtect
 
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
+
+csrf = CSRFProtect(app)
 
 UPLOAD_FOLDER = 'uploads'  
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'} 

@@ -14,7 +14,8 @@ Add locations
     {% endif %}
   <a href="{{ url_for('locations.home') }}" class="btn mb-3 btn-outline-info">Go Back</a>
   <form action="/locations/add" method="POST">
-    <div class="mb-3">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+      <div class="mb-3">
       <label for="location" class="form-label">Location</label>
       <select class="form-select" name="location" id="location" required>
           <option value="">Select Location</option>

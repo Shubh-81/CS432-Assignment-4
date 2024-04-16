@@ -78,6 +78,7 @@ Maintainence
                 <!-- Buttons for actions -->
                 <a href="{{ url_for('users.update_user', user_id=data.user_id) }}" class="btn btn-primary btn-sm">Update</a>
                 <form method="post" action="{{ url_for('users.delete_user', user_id=data.user_id) }}"  style="display:inline;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
             </td>

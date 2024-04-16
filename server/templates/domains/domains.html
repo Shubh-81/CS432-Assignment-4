@@ -14,6 +14,7 @@ Add Domains
     {% endif %}
   <a href="{{ url_for('domains.home') }}" class="btn mb-3 btn-outline-info">Go Back</a>
   <form action="/domains/add" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 <div class="mb-3">
   <label for="title" class="form-label">Domain</label>
   <input type="text" class="form-control" name="domain" id="domain" placeholder="Domain" required maxlength="20">

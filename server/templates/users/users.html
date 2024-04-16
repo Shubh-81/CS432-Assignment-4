@@ -14,6 +14,7 @@ Add Users
   {% endif %}
   <a href="{{ url_for('users.home') }}" class="btn mb-3 btn-outline-info">Go Back</a>
   <form action="/users/add" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <div class="mb-3">
       <label for="first_name" class="form-label">First Name</label>
       <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" required maxlength="20">

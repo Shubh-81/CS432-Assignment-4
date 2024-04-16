@@ -18,6 +18,7 @@ Add requests
   </div>
   <br/>
   <form action="" method="POST" enctype="multipart/form-data">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <div class="mb-3">
       <label for="user_id" class="form-label">User ID</label>
       <input type="number" class="form-control" name="user_id" id="user_id" placeholder="User ID" value="{{user_id}}" required readonly>

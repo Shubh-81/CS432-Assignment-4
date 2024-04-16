@@ -91,7 +91,6 @@ def home(message=None):
                     u.First_Name as first_name, u.Last_Name as last_name, u.Email_Id as email_id, u.mobile_number as mobile_number
                 FROM Request_Table r
                 JOIN User_Table u ON r.user_id = u.User_Id
-                WHERE r.status = 'Ongoing'
             """)
 
     filtered_requests = db.session.execute(query).fetchall()
