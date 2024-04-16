@@ -28,14 +28,28 @@ def allowed_file(filename):
 @login_required
 def home():
     try:
-        user_type = db.session.execute(text(f"SELECT type FROM user_table WHERE user_id = {current_user.user_id}")).fetchone()
-        user_type = user_type[0]
+        user_details = db.session.execute(text(f"""
+            SELECT type, First_Name, Last_Name, Email_Id, Mobile_Number 
+            FROM user_table 
+            WHERE user_id = {current_user.user_id}
+        """)).fetchone()
+        user_type = user_details[0]
     except Exception as e:
         print(e)
         user_type = 'user'
     finally:
         if user_type == 'admin':
-            return render_template("home/home.html")
+            status_filter = request.args.get('status')
+            filtered_request = Requests.query
+
+            if status_filter:
+                filtered_request = filtered_request.filter(Requests.status  == status_filter.capitalize())
+            filtered_request = filtered_request.all()
+            pending_count = Requests.query.filter_by(status='Pending').count()
+            return render_template("home/home.html",pending_count=pending_count,first_name=user_details[1],
+                               last_name=user_details[2],
+                               email_id=user_details[3],
+                               mobile_number=user_details[4])
         else:
             if request.method == 'POST':
                 domains = db.session.execute(text(f"SELECT * FROM domain_table")).fetchall()

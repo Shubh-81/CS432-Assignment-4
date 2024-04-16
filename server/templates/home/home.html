@@ -31,14 +31,86 @@ Maintainence
     </header>
   </div>
 
-  <div class="container" style="max-width: 600px;
-                                margin: 0 auto;
-                                padding: 20px;
-                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                                text-align: center;
-                                border-radius: 10px;">
-    <h1 style="color: #007bff; margin-bottom:20px"> Welcome! </h1>
-    <h3 style="color: #007bff; margin-bottom:20px"> IITGN Maintainence Portal </h2>
-    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a2/IIT_Gandhinagar_Logo.svg/1200px-IIT_Gandhinagar_Logo.svg.png" alt="Your Image Description" style="width:400px; height:400px; margin-right: 10px;"> 
+  <!-- <h2 class="page-heading">Admin Page</h2> -->
+  <div class="content-area d-flex justify-content-around align-items-start mt-4">
+      <!-- Left box with the image -->
+      <div class="main-content text-center" style="flex: 1; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 10px;">
+        <h1 style="color: #007bff; margin-bottom: 30px; font-size: 2.5rem; font-weight: bold; line-height: 1.2; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Welcome to the Admin Page!</h1>
+        <h3 style="color: #007bff; margin-bottom: 30px; font-size: 1.5rem; font-weight: normal; line-height: 1.2;">IITGN Maintenance Portal</h3>
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a2/IIT_Gandhinagar_Logo.svg/1200px-IIT_Gandhinagar_Logo.svg.png" alt="IIT Gandhinagar Logo" style="width: 100%; height: auto; max-width: 100%; max-height: 100%;"> 
+    </div>
+    
+      <!-- Right info boxes -->
+      <div class="info-boxes d-flex flex-column" style="flex: none; max-width: 300px;">
+        <div class="info-box mb-3" style="background-color: #f8f9fa; border-radius: 10px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <h3 style="margin-bottom: 0.5rem;">{{ first_name }} {{ last_name }}</h3>
+            <p style="margin-bottom: 0.25rem;">{{ email_id }}</p>
+            <p style="margin-bottom: 0;">{{ mobile_number }}</p>
+        </div>
+        <div class="info-box" style="background-color: #f8f9fa; border-radius: 10px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <h3 style="margin-bottom: 0.5rem;">Pending Requests</h3>
+            <p style="margin-bottom: 0;">{{ pending_count }}</p>
+        </div>
+    </div>
   </div>
+</div>
+
+<style>
+
+.page-heading {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin: 2rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.page-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: #007bff;
+}
+.content-area {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.main-content {
+  margin: 0 15px; /* Adjust the margin for spacing */
+  max-width: 460px; /* Set max-width for larger box */
+}
+.info-boxes {
+  margin: 0 15px;
+}
+.info-box {
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.info-box h3, .info-box p {
+  word-break: break-word;
+}
+@media (max-width: 768px) {
+  .content-area {
+      flex-direction: column;
+      align-items: center;
+  }
+  .main-content, .info-boxes {
+      margin: 10px 0;
+  }
+}
+</style>
 {% endblock %}
